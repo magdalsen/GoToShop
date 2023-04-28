@@ -1,17 +1,26 @@
+import { lazy, Suspense } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
-import { Text } from "@chakra-ui/react"
+const Login = lazy(() => import("./components/Login"));
+const Faq = lazy(() => import("./components/Faq"));
+const Signup = lazy(() => import("./components/Signup"));
+const Menu = lazy(() => import("./components/Menu"));
 
 function App() {
   return (
     <>
-      <div>
-      <Text
-        fontSize="6xl"
-        fontWeight="extrabold"
-      >
-        Welcome to Chakra UI
-      </Text>
-      </div>
+      <BrowserRouter>
+        <Menu />
+          <Suspense fallback={<h1>Still Loading…</h1>}>
+            <Routes>
+                <Route path="/" element={<p>listy bez zalogowania</p>} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/faq" element={<Faq />} />
+                <Route element={<div>404</div>} path="*"/>
+            </Routes>
+          </Suspense>
+      </BrowserRouter>
     </>
   )
 }
