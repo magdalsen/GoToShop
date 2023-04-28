@@ -25,5 +25,6 @@ export const schemaLogin = yup.object({
     confirm: yup.string()
       .oneOf([yup.ref('password')], 'Must match "password" field value')
       .required('Confirm password required!'),
-    image: yup.string().required("Avatar required!")
+    image: yup.string(),
+    city: yup.string().required('Wybierz miasto!')
   }).required();

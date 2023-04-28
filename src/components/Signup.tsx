@@ -2,6 +2,7 @@ import { Button, Input, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaSignup } from "./pages/validation";
+import { supabase } from "../supabaseClient";
 
 export interface SignupData {
     name: string;
@@ -10,9 +11,32 @@ export interface SignupData {
     password: string;
     confirm: string;
     image: string;
+    city: string;
 }
 
 const Signup = () => {
+    const addUser = async (values:SignupData) => {
+        const { data, error } = await supabase.auth.signUp({ 
+          email: values.email,
+          password: values.password
+        })
+        if (error) throw error;
+        if (data && data.user) {
+          const { data:userData, error } = await supabase
+          .from('users')
+          .insert([
+            { id: data.user?.id, name: values.name, email: values.email, age: values.age, image: values.image, city: values.city }
+          ])
+          if (error != null) {
+            alert("User already exist! Use different email");
+            throw error;
+          }
+          if (userData === null) {
+            alert(`Client ${values.email} registered!`)
+          }
+        }
+      }
+
     const { control, handleSubmit, formState: { errors } } = useForm<SignupData>({
         defaultValues: {
           name: '',
@@ -20,11 +44,14 @@ const Signup = () => {
           email: '',
           password: '',
           confirm: '',
-          image: ''
+          image: 'https://wallpaper.dog/logob.png',
+          city: ''
         },
         resolver: yupResolver(schemaSignup)
       });
-      const onSubmit = (data: SignupData) => console.log(data);
+      const onSubmit = (data: SignupData) => {
+        addUser(data);
+      }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
