@@ -2,7 +2,7 @@ import { useContext } from "react"
 
 import { UserContext } from "./UserContext"
 
-export const useThemeContext=()=>{
+export const useUserContext=()=>{
     const ctx=useContext(UserContext)
 
     if(!ctx){ // poza komponentem zwróci nulla

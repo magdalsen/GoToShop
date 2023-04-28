@@ -3,6 +3,9 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaSignup } from "./pages/validation";
 import { supabase } from "../supabaseClient";
+import 'leaflet/dist/leaflet.css';
+import LocationMarker from "./LocationMarker";
+import { useUserContext } from "../contexts/UserContext";
 
 export interface SignupData {
     name: string;
@@ -15,6 +18,7 @@ export interface SignupData {
 }
 
 const Signup = () => {
+    const {city}=useUserContext();
     const addUser = async (values:SignupData) => {
         const { data, error } = await supabase.auth.signUp({ 
           email: values.email,
@@ -44,7 +48,7 @@ const Signup = () => {
           email: '',
           password: '',
           confirm: '',
-          image: 'https://wallpaper.dog/logob.png',
+          image: '',
           city: ''
         },
         resolver: yupResolver(schemaSignup)
@@ -98,6 +102,14 @@ const Signup = () => {
                 render={({ field }) => <Input {...field} type="text" placeholder="Avatar" htmlSize={20} width='auto' />}
             />
             <p>{errors.image?.message}</p>
+            <div>Kliknij w mapę, aby pobrać lokalizację lub wpisz miasto</div>
+            <Controller
+                name="city"
+                control={control}
+                render={({ field: { value, onChange } }) => <Input onChange={onChange} value={city || value} className={city ? 'shadow' : ''} type="text" placeholder="Miasto" htmlSize={20} width='auto' />}
+            />
+            <p>{errors.city?.message}</p>
+            <LocationMarker />
             <Button colorScheme='blue' type="submit">Zarejestruj</Button>
         </form>
     )

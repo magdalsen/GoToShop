@@ -12,3 +12,7 @@ form > input,div,p {
 form > p {
   color: red;
 }
+
+.shadow {
+  opacity: 0.5;
+}

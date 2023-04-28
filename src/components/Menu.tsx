@@ -6,7 +6,7 @@ const Menu = () => {
     return (
         <>
             <Tabs>
-                <TabList justifyContent='center' width="100vw">
+                <TabList justifyContent='center'>
                     <Tab><Link to={'/login'}>Zaloguj się</Link></Tab>
                     <Tab><Link to={'/signup'}>Zarejestruj się</Link></Tab>
                     <Tab><Link to={'/faq'}>FAQ</Link></Tab>
