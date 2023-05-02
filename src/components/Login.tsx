@@ -24,23 +24,26 @@ const Login = () => {
       }
 
     return (
-        <LoginWrapper>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Controller
-                    name="email"
-                    control={control}
-                    render={({ field }) => <Input {...field} type="email" placeholder="E-mail" htmlSize={20} width='auto' />}
-                />
-                <p>{errors.email?.message}</p>
-                <Controller
-                    name="password"
-                    control={control}
-                    render={({ field }) => <Input {...field} type="password" placeholder="Hasło" htmlSize={20} width='auto' />}
-                />
-                <p>{errors.password?.message}</p>
-                <Button colorScheme='blue' type="submit">Zaloguj</Button>
-            </form>
-        </LoginWrapper>
+        <>
+            {isLoggedIn ? <>komponent z listami</> :
+            <>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Controller
+                        name="email"
+                        control={control}
+                        render={({ field }) => <Input {...field} type="email" placeholder="E-mail" htmlSize={20} width='auto' />}
+                    />
+                    <p>{errors.email?.message}</p>
+                    <Controller
+                        name="password"
+                        control={control}
+                        render={({ field }) => <Input {...field} type="password" placeholder="Hasło" htmlSize={20} width='auto' />}
+                    />
+                    <p>{errors.password?.message}</p>
+                    <Button colorScheme='blue' type="submit">Zaloguj</Button>
+                </form> 
+            </>}
+        </>
     )
 }
 
