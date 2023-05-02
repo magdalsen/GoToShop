@@ -2,7 +2,7 @@ import { SignupData } from "../components/validations/validation";
 import { supabase } from "../supabaseClient";
 import { useUserContext } from "../contexts/UserContext";
 
-const updateUser = async (values:SignupData, initialEmail:string) => {
+export const updateUser = async (values:SignupData, initialEmail:string) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const {id}=useUserContext();
     const { data, error } = await supabase.auth.updateUser({ email: initialEmail, password: values.password });
@@ -21,5 +21,3 @@ const updateUser = async (values:SignupData, initialEmail:string) => {
         return userData;
     }
   }
-
-  export default updateUser

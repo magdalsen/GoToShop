@@ -1,4 +1,4 @@
-import { Controller,FieldErrors,FieldValues } from "react-hook-form";
+import { Controller,DeepMap,FieldError,FieldErrors,FieldValues } from "react-hook-form";
 import { Input as ChakraInput } from "@chakra-ui/react";
 
 
@@ -9,7 +9,7 @@ interface InputProps
   rules?: ValidationRule;
   name: string;
   label: string;
-  errors: any;
+  errors: DeepMap<FieldValues, FieldError>;
   type: "text" | "email" | "number";
 }
 

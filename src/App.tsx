@@ -6,15 +6,31 @@ import 'leaflet/dist/leaflet.css';
 import MyAccount from './components/MyAccount';
 import MyLists from './components/MyLists';
 import AddList from './components/AddList';
+import { QueryClient, QueryCache, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 const Login = lazy(() => import("./components/Login"));
 const Faq = lazy(() => import("./components/Faq"));
 const Signup = lazy(() => import("./components/Signup"));
 const Menu = lazy(() => import("./components/Menu"));
 
+const queryClient=new QueryClient({
+  queryCache: new QueryCache(),
+   defaultOptions: {
+      queries: {
+        staleTime: 60_000,
+        // enabled: useRouter().isReady
+      }
+    }
+})
+
 function App() {
   return (
     <>
       <UserProvider>
+        <QueryClientProvider client={queryClient}>
+                    {process.env.NODE_ENV === "development" && (
+                  <ReactQueryDevtools position="top-right" initialIsOpen={false} />
+                )}
         <BrowserRouter>
           <Menu />
             <Suspense fallback={<h1>Still Loading…</h1>}>
@@ -30,6 +46,7 @@ function App() {
               </Routes>
             </Suspense>
         </BrowserRouter>
+        </QueryClientProvider>
       </UserProvider>
     </>
   )
