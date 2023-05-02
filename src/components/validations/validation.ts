@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import {InferType} from "yup";
 
 export const schemaLogin = yup.object({
     email: yup.string().email('Invalid email').required('E-mail required!'),
@@ -25,6 +26,8 @@ export const schemaLogin = yup.object({
     confirm: yup.string()
       .oneOf([yup.ref('password')], 'Must match "password" field value')
       .required('Confirm password required!'),
-    image: yup.string(),
-    city: yup.string()
+    // image: yup.string(),
+    city: yup.string().required('Select city!')
   }).required();
+
+  export type SignupData = InferType<typeof schemaSignup>

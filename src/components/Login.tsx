@@ -1,7 +1,7 @@
 import { Button, Input } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schemaLogin } from "./pages/validation";
+import { schemaLogin } from "./validations/validation";
 import { useUserContext } from "../contexts/UserContext";
 import LoginWrapper from "./LoginWrapper";
 
