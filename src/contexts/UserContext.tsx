@@ -12,6 +12,7 @@ type UserContextProps={
     image: string | undefined;
     email: string | undefined;
     city: string;
+    id: string;
 }
 
 export const UserContext=createContext<UserContextProps|null>(null)
@@ -21,6 +22,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [image, setImage] = useState<string>('');
   const [email, setEmail] = useState<string | undefined>('');
   const [city, setCity] = useState<string>('');
+  const [id, setId] = useState<string>('');
 
   async function getProfile(id: string | undefined) {
     const { data:image } = await supabase
@@ -28,6 +30,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     .select('*')
     .eq('id', id);
     setImage(image && image[0].image);
+    setId(image && image[0].id)
     return image && image[0].image;
   }
 
@@ -65,7 +68,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
     return (
-      <UserContext.Provider value={{ email, image, login, loginData, logOut, getCity, city, isLoggedIn }}>
+      <UserContext.Provider value={{ email, image, login, loginData, logOut, getCity, city, isLoggedIn, id }}>
         {children}
       </UserContext.Provider>
     );

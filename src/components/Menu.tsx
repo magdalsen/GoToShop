@@ -1,7 +1,7 @@
 import { Tabs, TabList, Tab, Text } from "@chakra-ui/react"
 import { theme } from "../main"
 import { Link } from "react-router-dom"
-import LoginDataWrapper from "./LoginDataWrapper"
+import LoginLinksWrapper from "./LoginLinksWrapper"
 import LoginWrapper from "./LoginWrapper"
 
 const Menu = () => {
@@ -9,11 +9,11 @@ const Menu = () => {
         <>
             <Tabs>
                 <TabList justifyContent='center'>
-                    <LoginDataWrapper>
+                    <LoginLinksWrapper>
                         <Tab><Link to={'/myaccount'}>Moje konto</Link></Tab>
                         <Tab><Link to={'/mylists'}>Moje listy</Link></Tab>
                         <Tab><Link to={'/addlist'}>Dodaj listę</Link></Tab>
-                    </LoginDataWrapper>
+                    </LoginLinksWrapper>
                     <LoginWrapper>
                         <Tab><Link to={'/login'}>Zaloguj się</Link></Tab>
                         <Tab><Link to={'/signup'}>Zarejestruj się</Link></Tab>

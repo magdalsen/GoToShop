@@ -37,8 +37,8 @@ const Signup = () => {
             <p>{errors.name?.message}</p>
              <RadioGroup>
                     <Stack direction="row" justify="center">
-                        <Radio {...register("age")} value="1">Mniej niż 18</Radio>
-                        <Radio {...register("age")} value="2">Więcej niż 18</Radio>
+                        <Radio {...register("age")} value="false">Mniej niż 18 lat</Radio>
+                        <Radio {...register("age")} value="true">Więcej niż 18 lat</Radio>
                     </Stack>
                     </RadioGroup>
             <p>{errors.age?.message}</p>

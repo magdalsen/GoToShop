@@ -6,10 +6,7 @@ const LoginDataWrapper = ({children}:{children:React.ReactNode}) => {
     return (
         <>
             {
-                isLoggedIn ? <>{children}</> :
-                <>
-
-                </>
+                isLoggedIn ? <>{children}</> : <>Musisz się najpierw zalogować.</>
             }
         </>
     )
