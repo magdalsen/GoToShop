@@ -13,6 +13,7 @@ const Menu = () => {
                         <Tab><Link to={'/myaccount'}>Moje konto</Link></Tab>
                         <Tab><Link to={'/addlist'}>Dodaj listę</Link></Tab>
                         <Tab><Link to={'/mylists'}>Moje listy</Link></Tab>
+                        <Tab><Link to={'/todo'}>Listy do realizacji</Link></Tab>
                     </LoginLinksWrapper>
                     <LoginWrapper>
                         <Tab><Link to={'/login'}>Zaloguj się</Link></Tab>

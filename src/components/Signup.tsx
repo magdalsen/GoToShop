@@ -32,8 +32,7 @@ const Signup = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Input {...register("name")} type="text" placeholder="Imię" htmlSize={20} width='auto' />
-
+            <Input {...register("name")} type="text" placeholder="Imię" htmlSize={20} width='auto' />
             <p>{errors.name?.message}</p>
              <RadioGroup>
                     <Stack direction="row" justify="center">
@@ -50,7 +49,7 @@ const Signup = () => {
             <Input {...register("confirm")} type="password" placeholder="Powtórz hasło" htmlSize={20} width='auto' />
             <p>{errors.confirm?.message}</p>
             <div>Kliknij w mapę, aby pobrać lokalizację lub wpisz miasto</div>
-             <Input {...register("city")} type="text" placeholder="Miasto" htmlSize={20} width='auto' />
+            <Input {...register("city")} type="text" placeholder="Miasto" htmlSize={20} width='auto' />
             <p>{errors.city?.message}</p>
             <LocationMarker />
             <Button colorScheme='blue' type="submit">Zarejestruj</Button>

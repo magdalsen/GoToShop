@@ -8,6 +8,8 @@ import MyLists from './components/MyLists';
 import AddList from './components/AddList';
 import { QueryClient, QueryCache, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import ToDo from './components/ToDo';
+import ListCreated from './components/ListCreated';
 const Login = lazy(() => import("./components/Login"));
 const Faq = lazy(() => import("./components/Faq"));
 const Signup = lazy(() => import("./components/Signup"));
@@ -40,7 +42,9 @@ function App() {
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/myaccount" element={<MyAccount />} />
                   <Route path="/mylists" element={<MyLists />} />
+                  <Route path="/listcreated" element={<ListCreated />} />
                   <Route path="/addlist" element={<AddList />} />
+                  <Route path="/todo" element={<ToDo />} />
                   <Route path="/faq" element={<Faq />} />
                   <Route element={<div>404</div>} path="*"/>
               </Routes>
