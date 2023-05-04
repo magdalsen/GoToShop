@@ -4,16 +4,19 @@ import LoginDataWrapper from "./LoginDataWrapper"
 import List from "./pages/List";
 import style from './MyLists.module.css';
 import { Link } from "react-router-dom";
+import { useUserContext } from "../contexts/UserContext";
 
 const MyLists = () => {
+    const {id}=useUserContext();
     const fetchLists = async () => {
         const { data, error } = await supabase
         .from('lists')
         .select('*')
+        .eq('ownerId', id)
         if (error) throw error;
         return data;
     }
-    const {data:lists, isLoading, error}=useQuery(["lists"],fetchLists);
+    const {data:lists, isLoading, error}=useQuery(["myLists",id],fetchLists);
 
     if (error) {
         <div>Sorry, error!</div>

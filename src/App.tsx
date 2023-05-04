@@ -11,6 +11,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import ToDo from './components/ToDo';
 import ListCreated from './components/ListCreated';
 import ListDetails from './components/ListDetails';
+import AllLists from './components/AllLists';
 const Login = lazy(() => import("./components/Login"));
 const Faq = lazy(() => import("./components/Faq"));
 const Signup = lazy(() => import("./components/Signup"));
@@ -38,7 +39,7 @@ function App() {
           <Menu />
             <Suspense fallback={<h1>Still Loading…</h1>}>
               <Routes>
-                  <Route path="/" element={<p>listy bez zalogowania</p>} />
+                  <Route path="/" element={<AllLists />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/myaccount" element={<MyAccount />} />

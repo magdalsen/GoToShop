@@ -4,18 +4,33 @@ import { supabase } from "../supabaseClient";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import style from './ListDetails.module.css';
+import { useUserContext } from "../contexts/UserContext";
 
 const ListDetails = () => {
-    const {id} = useParams();
+    const listId = useParams();
+    const {isLoggedIn,id}=useUserContext();    
     const fetchList = async () => {
         const { data, error } = await supabase
         .from('lists')
         .select('*')
-        .eq('id', id)
+        .eq('id', listId.id)
         if (error) throw error;
         return data[0];
     }
-    const {data:list, isLoading, error}=useQuery(["list",id],fetchList);
+    const {data:list, isLoading, error}=useQuery(["listDet",listId.id],fetchList);
+console.log(list?.ownerId, id);
+
+    const updateList = async () => {
+        const { data, error } = await supabase
+          .from('lists')
+          .update({ contractorId: id })
+          .eq('id', listId.id)
+          if (error) throw error;
+          if (data) {
+            alert('Lista dodana do realizacji!');
+            return data;
+          }
+      }
 
     if (error) {
         <div>Sorry, error!</div>
@@ -55,6 +70,9 @@ const ListDetails = () => {
                     <div>Telefon: {list?.phone}</div>
                     <div>Adres dostarczenia: {list?.address}</div>
                 </div>
+            </div>
+            <div>
+                <Button colorScheme='blue' type="button" onClick={updateList} isDisabled={(isLoggedIn && list?.contractorId === '') && (isLoggedIn && list?.ownerId !== id)  ? false : true}>Chcę zrealizować</Button>
             </div>
             <Link to="/mylists">
                 <Button colorScheme='blue' type="button">Wróć</Button>

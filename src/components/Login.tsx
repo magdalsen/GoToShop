@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaLogin } from "./validations/validation";
 import { useUserContext } from "../contexts/UserContext";
 import LoginWrapper from "./LoginWrapper";
+import AllLists from "./AllLists";
 
 export interface LoginData {
     email: string,
@@ -25,7 +26,7 @@ const Login = () => {
 
     return (
         <>
-            {isLoggedIn ? <>komponent z listami</> :
+            {isLoggedIn ? <><AllLists /></> :
             <>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller

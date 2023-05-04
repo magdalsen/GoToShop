@@ -25,7 +25,7 @@ export interface FormValues {
   phone: string;
   id: number;
   ownerId: number;
-  contractorId: number;
+  contractorId: string;
 }
 
 export default function App() {
