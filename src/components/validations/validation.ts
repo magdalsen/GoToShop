@@ -31,3 +31,19 @@ export const schemaLogin = yup.object({
   }).required();
 
   export type SignupData = InferType<typeof schemaSignup>
+  
+  const ProductsSchema = yup.object().shape({
+      name: yup.string().min(3, 'Min 3 characters!').required("Wpisz nazwę!"),
+      amount: yup.number().required('Wpisz ilość!'),
+      price: yup.number().required('Wpisz cenę!'),
+  }).required();
+
+  const ArrayOfCarsSchema = yup.array().of(ProductsSchema);
+
+  export const schemaAddList = yup.object({
+    products: ArrayOfCarsSchema,
+    listName: yup.string().required('Wpisz nazwę listy!'),
+    address: yup.string().required('Wpisz adres!'),
+    receiveDate: yup.string().required('Wybierz datę!'),
+    phone: yup.string().matches(/\+[0-9]{9}/),
+  }).required();

@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { supabase } from "../supabaseClient";
 import LoginDataWrapper from "./LoginDataWrapper";
 import { useQuery } from "@tanstack/react-query";
+import style from './MyAccount.module.css';
 // import { Input as FormInput } from './form/Input'
 
 const MyAccount = () => {
@@ -75,16 +76,16 @@ const MyAccount = () => {
 
     return (
         <LoginDataWrapper>
-                        Twoje konto:
+                        <div style={{fontWeight:"bold"}}>Twoje konto:</div>
 
                         {!editedUser ?
-                        <>
-                            <div>Imię: {users?.name}</div>
-                            <div>Wiek: {users?.age ? 'Więcej niż 18 lat' : 'Mniej niż 18 lat'}</div>
-                            <div>E-mail: {users?.email}</div>
-                            <div>Hasło: ************</div>
-                            <div>Miasto: {users?.city}</div>
-                        </> :
+                        <div className={style.userData}>
+                            <div><span>Imię: </span>{users?.name}</div>
+                            <div><span>Wiek: </span> {users?.age ? 'Więcej niż 18 lat' : 'Mniej niż 18 lat'}</div>
+                            <div><span>E-mail: </span> {users?.email}</div>
+                            <div><span>Hasło: </span> ************</div>
+                            <div><span>Miasto: </span> {users?.city}</div>
+                        </div> :
 
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <Input {...register("name")} type="text" placeholder="Imię" htmlSize={20} width='auto' />

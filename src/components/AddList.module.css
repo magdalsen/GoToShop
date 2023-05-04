@@ -2,3 +2,7 @@ form > .form {
     display: flex;
     justify-content: space-evenly;
 }
+
+.rightColumn > p, .leftColumn p {
+    color: red;
+}

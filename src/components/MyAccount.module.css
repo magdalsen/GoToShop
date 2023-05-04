@@ -1,0 +1,7 @@
+.userData > div {
+    margin: 10px;
+}
+
+.userData > div > span {
+    font-weight: bold;
+}

@@ -6,13 +6,18 @@ import { useUserContext } from "../contexts/UserContext";
 import { useState } from "react";
 import style from './AddList.module.css';
 import { useNavigate } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaAddList } from "./validations/validation";
 
-type FormValues = {
-  products: {
+export interface Products {
     name: string;
     price: number;
     amount: number;
-  }[];
+}
+
+export interface FormValues {
+  products: Products[];
+  listName: string;
   receiveDate: Date;
   address: string;
   estimatedCost: number;
@@ -21,9 +26,7 @@ type FormValues = {
   id: number;
   ownerId: number;
   contractorId: number;
-};
-
-
+}
 
 export default function App() {
   const {id}=useUserContext();
@@ -45,8 +48,8 @@ export default function App() {
       const total2 = (total*formValues2/100)+total
       setTotalPrice(total);
       return <>
-        <p>Szacowana wartość bez napiwku: {total} zł</p>
-        <p>Szacowana wartość z napiwkiem: {total2} zł</p>
+        <div>Szacowana wartość bez napiwku: {total} zł</div>
+        <div>Szacowana wartość z napiwkiem: {total2} zł</div>
       </>;
   };
 
@@ -68,11 +71,13 @@ export default function App() {
   } = useForm<FormValues>({
     defaultValues: {
       products: [{ name: "", amount: 0, price: 0 }],
+      listName: "",
       receiveDate: new Date(),
       address: "",
       tip: 0,
       phone: ""
     },
+    resolver: yupResolver(schemaAddList),
     mode: "onBlur"
   });
   const { fields, append, remove } = useFieldArray({
@@ -81,7 +86,7 @@ export default function App() {
   });
   const onSubmit = (data: FormValues) => {
     addList(data);
-    alert('List added!');
+    alert('Lista dodana!');
     navigate("/listcreated", { replace: true });
   };
 
@@ -89,7 +94,10 @@ export default function App() {
     <LoginDataWrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={style.form}>
-            <div>
+            <div className={style.leftColumn}>
+                <FormLabel display="flex" justifyContent="center">Nazwa listy</FormLabel>
+                <Input {...register("listName")} type="text" placeholder="Nazwa listy" htmlSize={20} width='auto' />
+                <p>{errors.listName?.message}</p>
                 {fields.map((field, index) => {
                 return (
                     <div key={field.id}>
@@ -125,7 +133,7 @@ export default function App() {
                 Dodaj produkt
                 </Button>
             </div>
-            <div>            
+            <div className={style.rightColumn}>            
                 <FormLabel display="flex" justifyContent="center">Napiwek w %</FormLabel>
                 <Input {...register("tip")} type="number" htmlSize={20} width='auto' />
                 <p>{errors.tip?.message}</p>
@@ -133,7 +141,7 @@ export default function App() {
                 <Input {...register("receiveDate")} type="date" htmlSize={20} width='auto' />
                 <p>{errors.receiveDate?.message}</p>
                 <FormLabel display="flex" justifyContent="center">Adres dostarczenia</FormLabel>
-                <Input {...register("address")} type="text" htmlSize={20} width='auto' />
+                <Input {...register("address")} type="text" placeholder="np. ul. Jasna 5" htmlSize={20} width='auto' />
                 <p>{errors.address?.message}</p>
                 <FormLabel display="flex" justifyContent="center">Telefon kontaktowy</FormLabel>
                 <Input {...register("phone")} type="text" placeholder="Telefon" htmlSize={20} width='auto' />
