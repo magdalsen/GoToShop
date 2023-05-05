@@ -17,3 +17,7 @@
 .onlyProducts {
     display: flex;
 }
+
+.dispNone {
+    display: none;
+}

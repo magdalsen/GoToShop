@@ -29,7 +29,7 @@ const ToDo = () => {
         <LoginDataWrapper>
                 <div className={style.listsBox}>
                     {lists?.map((values)=>(
-                        <Link to={`/listdetails/${values.id}`} key={values.id}>
+                        <Link to={`/todo/listdetails/${values.id}`} key={values.id}>
                             <div key={values.id}>
                                 <List {...values} />
                             </div>

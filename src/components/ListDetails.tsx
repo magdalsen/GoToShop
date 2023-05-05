@@ -2,7 +2,7 @@ import { Box, Button } from "@chakra-ui/react";
 import { Products } from "./AddList";
 import { supabase } from "../supabaseClient";
 import { useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import style from './ListDetails.module.css';
 import { useUserContext } from "../contexts/UserContext";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
@@ -11,6 +11,8 @@ import { buttonDisabled, buttonActive } from "../redux/takeListSlice";
 const ListDetails = () => {
     const listId = useParams();
     const {isLoggedIn,id}=useUserContext();
+    const navigate = useNavigate();
+    const location = useLocation();
     const checkedButtons=useAppSelector(state=>state.button);
     const dispatch = useAppDispatch();
 
@@ -20,10 +22,9 @@ const ListDetails = () => {
           .update({ contractorId: id })
           .eq('id', listId.id)
           if (error) throw error;
-          if (data) {
-            alert('Lista dodana do realizacji!');
-            return data;
-          }
+          alert('Lista dodana do realizacji!');
+          navigate("/mylists", { replace: true });
+          return data;
       }
 
     const fetchList = async () => {
@@ -83,6 +84,9 @@ const ListDetails = () => {
             <div>
                 <Button colorScheme='blue' type="button" onClick={updateList} isDisabled={checkedButtons}>Chcę zrealizować</Button>
             </div>
+            <Link to={`/submitlist/${listId.id}`} className={(location.pathname === `/listdetails/${listId.id}`) ? style.dispNone : '' }>
+                <Button colorScheme='blue' type="button">Zatwierdź listę</Button>
+            </Link>
             <Link to="/mylists">
                 <Button colorScheme='blue' type="button">Wróć</Button>
             </Link>

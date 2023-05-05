@@ -28,7 +28,7 @@ export interface FormValues {
   contractorId: string;
 }
 
-export default function App() {
+const AddList = () => {
   const {id}=useUserContext();
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const navigate = useNavigate(); 
@@ -87,7 +87,7 @@ export default function App() {
   const onSubmit = (data: FormValues) => {
     addList(data);
     alert('Lista dodana!');
-    navigate("/listcreated", { replace: true });
+    navigate("/taskcompleted", { replace: true });
   };
 
   return (
@@ -154,3 +154,5 @@ export default function App() {
     </LoginDataWrapper>
   );
 }
+
+export default AddList

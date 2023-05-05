@@ -47,3 +47,7 @@ export const schemaLogin = yup.object({
     receiveDate: yup.string().required('Wybierz datę!'),
     phone: yup.string().matches(/\+[0-9]{9}/),
   }).required();
+
+  export const schemaSubmitList = yup.object({
+    spent: yup.number().required('Wpisz kwotę!')
+  }).required();
