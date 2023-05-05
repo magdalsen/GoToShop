@@ -5,20 +5,14 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import style from './ListDetails.module.css';
 import { useUserContext } from "../contexts/UserContext";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { buttonDisabled, buttonActive } from "../redux/takeListSlice";
 
 const ListDetails = () => {
     const listId = useParams();
-    const {isLoggedIn,id}=useUserContext();    
-    const fetchList = async () => {
-        const { data, error } = await supabase
-        .from('lists')
-        .select('*')
-        .eq('id', listId.id)
-        if (error) throw error;
-        return data[0];
-    }
-    const {data:list, isLoading, error}=useQuery(["listDet",listId.id],fetchList);
-console.log(list?.ownerId, id);
+    const {isLoggedIn,id}=useUserContext();
+    const checkedButtons=useAppSelector(state=>state.button);
+    const dispatch = useAppDispatch();
 
     const updateList = async () => {
         const { data, error } = await supabase
@@ -31,6 +25,21 @@ console.log(list?.ownerId, id);
             return data;
           }
       }
+
+    const fetchList = async () => {
+        const { data, error } = await supabase
+        .from('lists')
+        .select('*')
+        .eq('id', listId.id)
+        if (error) throw error;
+        return data[0];
+    }
+    const {data:list, isLoading, error}=useQuery(["listDet",listId.id],fetchList);
+
+    const handleStateButton = () => {
+      (isLoggedIn && (list?.contractorId === '' && list?.ownerId !== id)) ? dispatch(buttonActive()) : dispatch(buttonDisabled())
+    }
+    handleStateButton();
 
     if (error) {
         <div>Sorry, error!</div>
@@ -72,7 +81,7 @@ console.log(list?.ownerId, id);
                 </div>
             </div>
             <div>
-                <Button colorScheme='blue' type="button" onClick={updateList} isDisabled={(isLoggedIn && list?.contractorId === '') && (isLoggedIn && list?.ownerId !== id)  ? false : true}>Chcę zrealizować</Button>
+                <Button colorScheme='blue' type="button" onClick={updateList} isDisabled={checkedButtons}>Chcę zrealizować</Button>
             </div>
             <Link to="/mylists">
                 <Button colorScheme='blue' type="button">Wróć</Button>
