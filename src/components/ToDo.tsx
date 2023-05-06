@@ -11,8 +11,11 @@ const ToDo = () => {
     const fetchToDoLists = async () => {
         const { data, error } = await supabase
         .from('lists')
-        .select('*')
-        .eq('contractorId', id)
+        .select()
+        .match({
+            contractorId: id,
+            archived: false
+        })
         if (error) throw error;
         return data;
     }

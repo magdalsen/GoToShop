@@ -1,23 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
+import { useUserContext } from "../contexts/UserContext";
 import { supabase } from "../supabaseClient";
-import LoginDataWrapper from "./LoginDataWrapper"
+import LoginDataWrapper from "./LoginDataWrapper";
+import { Link } from "react-router-dom";
 import List from "./pages/List";
 import style from './MyLists.module.css';
-import { Link } from "react-router-dom";
-import { useUserContext } from "../contexts/UserContext";
 
-const MyLists = () => {
+export const ArchivedLists = () => {
     const {id}=useUserContext();
-    const fetchLists = async () => {
+    const fetchArchivedLists = async () => {
         const { data, error } = await supabase
         .from('lists')
         .select('*')
-        .eq('ownerId', id)
-        .eq('archived', false)
+        .match({
+            contractorId: id,
+            archived: true
+        })
         if (error) throw error;
         return data;
     }
-    const {data:lists, isLoading, error}=useQuery(["myLists",id],fetchLists);
+    const {data:lists, isLoading, error}=useQuery(["myListsArchived",id],fetchArchivedLists);
 
     if (error) {
         <div>Sorry, error!</div>
@@ -25,12 +27,12 @@ const MyLists = () => {
     if (isLoading) {
         <div>Loading data...</div>
     }
-
+    
     return (
         <LoginDataWrapper>
                 <div className={style.listsBox}>
                     {lists?.map((values)=>(
-                        <Link to={`/listdetails/${values.id}`} key={values.id}>
+                        <Link to={`/archived/listdetails/${values.id}`} key={values.id}>
                             <div key={values.id}>
                                 <List {...values} />
                             </div>
@@ -40,5 +42,3 @@ const MyLists = () => {
         </LoginDataWrapper>
     )
 }
-
-export default MyLists

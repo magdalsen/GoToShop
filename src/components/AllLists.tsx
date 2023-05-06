@@ -9,6 +9,7 @@ const AllLists = () => {
         const { data, error } = await supabase
         .from('lists')
         .select('*')
+        .eq('archived', false)
         if (error) throw error;
         return data;
     }

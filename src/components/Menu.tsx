@@ -1,4 +1,4 @@
-import { Tabs, TabList, Tab, Text } from "@chakra-ui/react"
+import { Tabs, TabList, Tab, Text, Button } from "@chakra-ui/react"
 import { theme } from "../main"
 import { Link } from "react-router-dom"
 import LoginLinksWrapper from "./LoginLinksWrapper"
@@ -14,6 +14,7 @@ const Menu = () => {
                         <Tab><Link to={'/addlist'}>Dodaj listę</Link></Tab>
                         <Tab><Link to={'/mylists'}>Moje listy</Link></Tab>
                         <Tab><Link to={'/todo'}>Listy do realizacji</Link></Tab>
+                        <Link to={'/archived'}><Button colorScheme='red'>Archiwum</Button></Link>
                     </LoginLinksWrapper>
                     <LoginWrapper>
                         <Tab><Link to={'/login'}>Zaloguj się</Link></Tab>

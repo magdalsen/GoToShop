@@ -43,7 +43,7 @@ const {data:list, isLoading, error}=useQuery(["listSubmited",id],fetchListData);
     const { data, error } = await supabase
     .from('lists')
     .update([
-      { realTip: tip }
+      { realTip: tip, archived: true }
     ])
     .eq('id', id)
     if (error) throw error;
@@ -79,12 +79,17 @@ if (isLoading) {
     <LoginDataWrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={style.form}>
-
+            <div className={style.leftColumn}>
+                <div>Dane listy</div>
+                <div>Nazwa listy: {list?.listName}</div>
+                <div>Przewidywany wydatek: {list?.estimatedCost} zł</div>
+                <div>Wartość napiwku: {list?.tip}%</div>
+            </div>
             <div className={style.rightColumn}>            
                 <FormLabel display="flex" justifyContent="center">Wydane</FormLabel>
                 <Input {...register("spent")} type="number" htmlSize={20} width='auto' />
                 <p>{errors.spent?.message}</p>
-
+                <div>Podsumowanie</div>
                 <Total control={control} />
             </div>
         </div>

@@ -13,6 +13,7 @@ import TaskCompleted from './components/TaskCompleted';
 import ListDetails from './components/ListDetails';
 import AllLists from './components/AllLists';
 import SubmitList from './components/SubmitList';
+import {ArchivedLists} from './components/ArchivedLists';
 const Login = lazy(() => import("./components/Login"));
 const Faq = lazy(() => import("./components/Faq"));
 const Signup = lazy(() => import("./components/Signup"));
@@ -48,10 +49,12 @@ function App() {
                   <Route path="/taskcompleted" element={<TaskCompleted />} />
                   <Route path="/listdetails/:id" index element={<ListDetails />} />
                   <Route path="/todo/listdetails/:id" index element={<ListDetails />} />
+                  <Route path="/archived/listdetails/:id" index element={<ListDetails />} />
                   <Route path="/submitlist/:id" index element={<SubmitList />} />
                   <Route path="/addlist" element={<AddList />} />
                   <Route path="/todo" element={<ToDo />} />
                   <Route path="/faq" element={<Faq />} />
+                  <Route path="/archived" element={<ArchivedLists />} />
                   <Route element={<div>404</div>} path="*"/>
               </Routes>
             </Suspense>

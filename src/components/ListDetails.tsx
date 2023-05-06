@@ -23,7 +23,7 @@ const ListDetails = () => {
           .eq('id', listId.id)
           if (error) throw error;
           alert('Lista dodana do realizacji!');
-          navigate("/mylists", { replace: true });
+          navigate("/todo", { replace: true });
           return data;
       }
 
@@ -48,49 +48,51 @@ const ListDetails = () => {
     if (isLoading) {
         <div>Loading data...</div>
     }
-
+    
     return (
-        <Box bgImage="url('./list.png')" className={style.oneList}>
-            <div>Nazwa listy: {list?.listName}</div>
-            <div className={style.productData}>
-                <div>Produkty:
-                    <div className={style.onlyProducts}>
-                        <div>
-                        <p>Nazwa</p>
-                            {list?.products.map((product:Products)=>(
-                            <div key={Math.random()}>
-                                <p>{product.name}</p>
+        <div className={list?.archived ? style.opacity : '' }>
+            <Box bgImage="url('./list.png')" className={style.oneList}>
+                <div>Nazwa listy: {list?.listName}</div>
+                <div className={style.productData}>
+                    <div>Produkty:
+                        <div className={style.onlyProducts}>
+                            <div>
+                            <p>Nazwa</p>
+                                {list?.products.map((product:Products)=>(
+                                <div key={Math.random()}>
+                                    <p>{product.name}</p>
+                                </div>
+                                ))}
                             </div>
-                            ))}
-                        </div>
-                        <div>
-                            <p>Ilość</p>
-                            {list?.products.map((product:Products)=>(
-                            <div key={Math.random()}>
-                                <p>{product.amount}</p>
+                            <div>
+                                <p>Ilość</p>
+                                {list?.products.map((product:Products)=>(
+                                <div key={Math.random()}>
+                                    <p>{product.amount}</p>
+                                </div>
+                                ))}
                             </div>
-                            ))}
                         </div>
+                    </div>
+                    <div>
+                        <div>Szacowany koszt: {list?.estimatedCost} zł</div>
+                        <div>Napiwek: {list?.tip}%</div>
+                        <div>Data dostarczenia: {list?.receiveDate}</div>
+                        <div>Telefon: {list?.phone}</div>
+                        <div>Adres dostarczenia: {list?.address}</div>
                     </div>
                 </div>
                 <div>
-                    <div>Szacowany koszt: {list?.estimatedCost} zł</div>
-                    <div>Napiwek: {list?.tip}%</div>
-                    <div>Data dostarczenia: {list?.receiveDate}</div>
-                    <div>Telefon: {list?.phone}</div>
-                    <div>Adres dostarczenia: {list?.address}</div>
+                    <Button colorScheme='blue' type="button" onClick={updateList} isDisabled={checkedButtons}>Chcę zrealizować</Button>
                 </div>
-            </div>
-            <div>
-                <Button colorScheme='blue' type="button" onClick={updateList} isDisabled={checkedButtons}>Chcę zrealizować</Button>
-            </div>
-            <Link to={`/submitlist/${listId.id}`} className={(location.pathname === `/listdetails/${listId.id}`) ? style.dispNone : '' }>
-                <Button colorScheme='blue' type="button">Zatwierdź listę</Button>
-            </Link>
-            <Link to="/mylists">
-                <Button colorScheme='blue' type="button">Wróć</Button>
-            </Link>
-        </Box>
+                <Link to={`/submitlist/${listId.id}`} className={(location.pathname === `/listdetails/${listId.id}`) ? style.dispNone : '' }>
+                    <Button colorScheme='blue' type="button">Podsumuj listę</Button>
+                </Link>
+                <Link to="/">
+                    <Button colorScheme='blue' type="button">Wróć</Button>
+                </Link>
+            </Box>
+        </div>
     )
 }
 
