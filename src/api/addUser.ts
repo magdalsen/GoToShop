@@ -1,7 +1,10 @@
 import { SignupData } from "../components/validations/validation";
+import { useNotificationContext } from "../contexts/NotificationContext";
 import { supabase } from "../supabaseClient";
 
 export const addUser = async (values:SignupData) => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const {toggleAlertSuccess, toggleAlertError}=useNotificationContext();
         const {email,password,name,age,city}=values;
 
         const { data, error } = await supabase.auth.signUp({ 
@@ -16,11 +19,11 @@ export const addUser = async (values:SignupData) => {
             { id: data.user?.id, name, email, age, city }
           ])
           if (error != null) {
-            alert("User already exist! Use different email");
+            toggleAlertError("User already exist! Use different email");
             throw error;
           }
           if (userData === null) {
-            alert(`Client ${values.email} registered!`)
+            toggleAlertSuccess(`Client ${values.email} registered!`);
           }
         }
       }

@@ -14,6 +14,7 @@ import ListDetails from './components/ListDetails';
 import AllLists from './components/AllLists';
 import SubmitList from './components/SubmitList';
 import {ArchivedLists} from './components/ArchivedLists';
+import { NotificationProvider } from './contexts/NotificationContext';
 const Login = lazy(() => import("./components/Login"));
 const Faq = lazy(() => import("./components/Faq"));
 const Signup = lazy(() => import("./components/Signup"));
@@ -32,35 +33,37 @@ const queryClient=new QueryClient({
 function App() {
   return (
     <>
-      <UserProvider>
-        <QueryClientProvider client={queryClient}>
-                    {process.env.NODE_ENV === "development" && (
-                  <ReactQueryDevtools position="top-right" initialIsOpen={false} />
-                )}
-        <BrowserRouter>
-          <Menu />
-            <Suspense fallback={<h1>Still Loading…</h1>}>
-              <Routes>
-                  <Route path="/" element={<AllLists />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/myaccount" element={<MyAccount />} />
-                  <Route path="/mylists" element={<MyLists />} />
-                  <Route path="/taskcompleted" element={<TaskCompleted />} />
-                  <Route path="/listdetails/:id" index element={<ListDetails />} />
-                  <Route path="/todo/listdetails/:id" index element={<ListDetails />} />
-                  <Route path="/archived/listdetails/:id" index element={<ListDetails />} />
-                  <Route path="/submitlist/:id" index element={<SubmitList />} />
-                  <Route path="/addlist" element={<AddList />} />
-                  <Route path="/todo" element={<ToDo />} />
-                  <Route path="/faq" element={<Faq />} />
-                  <Route path="/archived" element={<ArchivedLists />} />
-                  <Route element={<div>404</div>} path="*"/>
-              </Routes>
-            </Suspense>
-        </BrowserRouter>
-        </QueryClientProvider>
-      </UserProvider>
+      <NotificationProvider>
+        <UserProvider>
+          <QueryClientProvider client={queryClient}>
+                      {process.env.NODE_ENV === "development" && (
+                    <ReactQueryDevtools position="top-right" initialIsOpen={false} />
+                  )}
+            <BrowserRouter>
+              <Menu />
+                <Suspense fallback={<h1>Still Loading…</h1>}>
+                  <Routes>
+                      <Route path="/" element={<AllLists />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/signup" element={<Signup />} />
+                      <Route path="/myaccount" element={<MyAccount />} />
+                      <Route path="/mylists" element={<MyLists />} />
+                      <Route path="/taskcompleted" element={<TaskCompleted />} />
+                      <Route path="/listdetails/:id" index element={<ListDetails />} />
+                      <Route path="/todo/listdetails/:id" index element={<ListDetails />} />
+                      <Route path="/archived/listdetails/:id" index element={<ListDetails />} />
+                      <Route path="/submitlist/:id" index element={<SubmitList />} />
+                      <Route path="/addlist" element={<AddList />} />
+                      <Route path="/todo" element={<ToDo />} />
+                      <Route path="/faq" element={<Faq />} />
+                      <Route path="/archived" element={<ArchivedLists />} />
+                      <Route element={<div>404</div>} path="*"/>
+                  </Routes>
+                </Suspense>
+            </BrowserRouter>
+          </QueryClientProvider>
+        </UserProvider>
+      </NotificationProvider>
     </>
   )
 }

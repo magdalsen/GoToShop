@@ -8,6 +8,7 @@ import style from './AddList.module.css';
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaAddList } from "./validations/validation";
+import { useNotificationContext } from "../contexts/NotificationContext";
 
 export interface Products {
     name: string;
@@ -30,6 +31,7 @@ export interface FormValues {
 
 const AddList = () => {
   const {id}=useUserContext();
+  const {toggleAlertSuccess}=useNotificationContext();
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const navigate = useNavigate(); 
   const Total = ({ control }: { control: Control<FormValues> }) => {
@@ -86,7 +88,7 @@ const AddList = () => {
   });
   const onSubmit = (data: FormValues) => {
     addList(data);
-    alert('Lista dodana!');
+    toggleAlertSuccess('Lista dodana!');
     navigate("/taskcompleted", { replace: true });
   };
 

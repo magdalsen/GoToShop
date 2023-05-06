@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaSubmitList } from "./validations/validation";
 import { useQuery } from "@tanstack/react-query";
+import { useNotificationContext } from "../contexts/NotificationContext";
 
 export interface FormValues {
     spent: number
@@ -15,6 +16,7 @@ export interface FormValues {
 const SubmitList = () => {
   const {id}=useParams();
   const navigate = useNavigate();
+  const {toggleAlertSuccess}=useNotificationContext();
 
 const fetchListData = async () => {
     const { data, error } = await supabase
@@ -47,7 +49,7 @@ const {data:list, isLoading, error}=useQuery(["listSubmited",id],fetchListData);
     ])
     .eq('id', id)
     if (error) throw error;
-    alert('Lista zatwierdzona!');
+    toggleAlertSuccess('Lista zatwierdzona!');
     navigate("/taskcompleted", { replace: true });
     return data;
   }

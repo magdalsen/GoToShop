@@ -7,10 +7,11 @@ import style from './ListDetails.module.css';
 import { useUserContext } from "../contexts/UserContext";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { buttonDisabled, buttonActive } from "../redux/takeListSlice";
-import LoginDataWrapper from "./LoginDataWrapper";
 import { useEffect } from "react";
+import { useNotificationContext } from "../contexts/NotificationContext";
 
 const ListDetails = () => {
+    const {toggleAlertSuccess}=useNotificationContext();
     const listId = useParams();
     const {isLoggedIn,id}=useUserContext();
     const queryClient = useQueryClient();
@@ -25,7 +26,7 @@ const ListDetails = () => {
           .update({ contractorId: id })
           .eq('id', listId.id)
           if (error) throw error;
-          alert('Lista dodana do realizacji!');
+          toggleAlertSuccess('Lista dodana do realizacji!');
           navigate("/todo", { replace: true });
           return data;
       }
@@ -66,7 +67,6 @@ const ListDetails = () => {
     }
     
     return (
-        <LoginDataWrapper>
             <div className={list?.archived ? style.opacity : '' }>
                 <Box bgImage="url('./list.png')" className={style.oneList}>
                     <div>Nazwa listy: {list?.listName}</div>
@@ -110,7 +110,6 @@ const ListDetails = () => {
                     </Link>
                 </Box>
             </div>
-        </LoginDataWrapper>
     )
 }
 

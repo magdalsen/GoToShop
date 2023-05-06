@@ -3,7 +3,6 @@ import { Controller, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaLogin } from "./validations/validation";
 import { useUserContext } from "../contexts/UserContext";
-import LoginWrapper from "./LoginWrapper";
 import AllLists from "./AllLists";
 
 export interface LoginData {

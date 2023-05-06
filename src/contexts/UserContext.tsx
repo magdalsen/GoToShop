@@ -2,6 +2,7 @@ import { createContext, useState } from "react"
 
 import { getSafeContext } from "./getSafeContext";
 import { supabase } from "../supabaseClient";
+import { useNotificationContext } from "./NotificationContext";
 
 type UserContextProps={
     login: (username:string,password:string)=>void;
@@ -18,7 +19,8 @@ type UserContextProps={
 export const UserContext=createContext<UserContextProps|null>(null)
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isLoggedIn,setIsLogged]=useState<boolean>(false)
+  const [isLoggedIn,setIsLogged]=useState<boolean>(false);
+  const {toggleAlertSuccess, toggleAlertError}=useNotificationContext();
   const [image, setImage] = useState<string>('');
   const [email, setEmail] = useState<string | undefined>('');
   const [city, setCity] = useState<string>('');
@@ -41,12 +43,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
      });
      if (error) {
         setIsLogged(false);
-        alert('Bad data!');
+        toggleAlertError('Bad data!');
         return false;
     }
      if (userData) {
         setIsLogged(true);
-        alert('Logged in!');
+        toggleAlertSuccess('Logged in!');
         await getProfile(userData.user?.id);
         setEmail(userData.user?.email);
         return true;

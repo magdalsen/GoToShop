@@ -9,12 +9,14 @@ import { supabase } from "../supabaseClient";
 import LoginDataWrapper from "./LoginDataWrapper";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import style from './MyAccount.module.css';
+import { useNotificationContext } from "../contexts/NotificationContext";
 // import { Input as FormInput } from './form/Input'
 
 const MyAccount = () => {
     const {id}=useUserContext();
     const [editedUser, setEditUser] = useState(false);
     const queryClient = useQueryClient();
+    const {toggleAlertSuccess}=useNotificationContext();
 
     const updateUser = async (values:SignupData, initialEmail:string) => {
         const { data, error } = await supabase.auth.updateUser({ email: initialEmail, password: values.password });
@@ -74,7 +76,7 @@ const MyAccount = () => {
       const onSubmit = (data: SignupData) => {
         updateUser(data, users?.email);
         mutation.mutate(data, users?.email);
-        alert('User updated!');
+        toggleAlertSuccess('User updated!');
       }
 
       if(error){
