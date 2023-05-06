@@ -7,13 +7,14 @@ import { useUserContext } from "../contexts/UserContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { supabase } from "../supabaseClient";
 import LoginDataWrapper from "./LoginDataWrapper";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import style from './MyAccount.module.css';
 // import { Input as FormInput } from './form/Input'
 
 const MyAccount = () => {
     const {id}=useUserContext();
     const [editedUser, setEditUser] = useState(false);
+    const queryClient = useQueryClient();
 
     const updateUser = async (values:SignupData, initialEmail:string) => {
         const { data, error } = await supabase.auth.updateUser({ email: initialEmail, password: values.password });
@@ -32,6 +33,15 @@ const MyAccount = () => {
             return userData;
         }
       }
+
+      const mutation = useMutation(async (data:SignupData, email:string)=>await updateUser(data, email), {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['users']);
+        },
+        onError: ()=>{
+          throw new Error("Something went wrong :(");
+        }
+    });
 
     const fetchUserData = async () => {
         const { data, error } = await supabase
@@ -63,6 +73,7 @@ const MyAccount = () => {
       });
       const onSubmit = (data: SignupData) => {
         updateUser(data, users?.email);
+        mutation.mutate(data, users?.email);
         alert('User updated!');
       }
 

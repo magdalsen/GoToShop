@@ -19,8 +19,8 @@ const Menu = () => {
                     <LoginWrapper>
                         <Tab><Link to={'/login'}>Zaloguj się</Link></Tab>
                         <Tab><Link to={'/signup'}>Zarejestruj się</Link></Tab>
+                        <Tab><Link to={'/faq'}>FAQ</Link></Tab>
                     </LoginWrapper>
-                    <Tab><Link to={'/faq'}>FAQ</Link></Tab>
                 </TabList>
             <Link to={'/'}>
                 <Text
