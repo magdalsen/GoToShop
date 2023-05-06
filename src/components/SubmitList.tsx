@@ -6,7 +6,7 @@ import style from './AddList.module.css';
 import { useNavigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaSubmitList } from "./validations/validation";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNotificationContext } from "../contexts/NotificationContext";
 
 export interface FormValues {
@@ -15,6 +15,7 @@ export interface FormValues {
 
 const SubmitList = () => {
   const {id}=useParams();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const {toggleAlertSuccess}=useNotificationContext();
 
@@ -45,7 +46,7 @@ const {data:list, isLoading, error}=useQuery(["listSubmited",id],fetchListData);
     const { data, error } = await supabase
     .from('lists')
     .update([
-      { realTip: tip, archived: true }
+      { realTip: tip, confirmed: true }
     ])
     .eq('id', id)
     if (error) throw error;
@@ -53,6 +54,15 @@ const {data:list, isLoading, error}=useQuery(["listSubmited",id],fetchListData);
     navigate("/taskcompleted", { replace: true });
     return data;
   }
+
+  const mutation = useMutation(async (data:FormValues)=>await updateList(data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['listSubmited',id]);
+    },
+    onError: ()=>{
+      throw new Error("Something went wrong :(");
+    }
+  });
       
   const {
     register,
@@ -68,6 +78,7 @@ const {data:list, isLoading, error}=useQuery(["listSubmited",id],fetchListData);
   });
   const onSubmit = (data: FormValues) => {
     updateList(data);
+    mutation.mutate(data);
   };
 
   if (error) {
@@ -79,7 +90,8 @@ if (isLoading) {
 
   return (
     <LoginDataWrapper>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      {list?.confirmed ? 'Lista czeka na zatwierdzenie.' : ''}
+      <form onSubmit={handleSubmit(onSubmit)} className={list?.confirmed ? style.opacity : ''}>
         <div className={style.form}>
             <div className={style.leftColumn}>
                 <div>Dane listy</div>

@@ -6,3 +6,7 @@ form > .form {
 .rightColumn > p, .leftColumn p {
     color: red;
 }
+
+.opacity {
+    opacity: 0.5;
+}

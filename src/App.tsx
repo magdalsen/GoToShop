@@ -15,10 +15,11 @@ import AllLists from './components/AllLists';
 import SubmitList from './components/SubmitList';
 import {ArchivedLists} from './components/ArchivedLists';
 import { NotificationProvider } from './contexts/NotificationContext';
+import ToAccept from './components/ToAccept';
 const Login = lazy(() => import("./components/Login"));
 const Faq = lazy(() => import("./components/Faq"));
 const Signup = lazy(() => import("./components/Signup"));
-const Menu = lazy(() => import("./components/Menu"));
+const Navbar = lazy(() => import("./components/Navbar"));
 
 const queryClient=new QueryClient({
   queryCache: new QueryCache(),
@@ -40,7 +41,7 @@ function App() {
                     <ReactQueryDevtools position="top-right" initialIsOpen={false} />
                   )}
             <BrowserRouter>
-              <Menu />
+              <Navbar />
                 <Suspense fallback={<h1>Still Loading…</h1>}>
                   <Routes>
                       <Route path="/" element={<AllLists />} />
@@ -54,6 +55,7 @@ function App() {
                       <Route path="/archived/listdetails/:id" index element={<ListDetails />} />
                       <Route path="/submitlist/:id" index element={<SubmitList />} />
                       <Route path="/addlist" element={<AddList />} />
+                      <Route path="/toaccept" element={<ToAccept />} />
                       <Route path="/todo" element={<ToDo />} />
                       <Route path="/faq" element={<Faq />} />
                       <Route path="/archived" element={<ArchivedLists />} />

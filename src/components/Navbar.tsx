@@ -1,10 +1,11 @@
-import { Tabs, TabList, Tab, Text, Button } from "@chakra-ui/react"
+import { Tabs, TabList, Tab, Text, Button, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
+import { ChevronDownIcon } from '@chakra-ui/icons'
 import { theme } from "../main"
 import { Link } from "react-router-dom"
 import LoginLinksWrapper from "./LoginLinksWrapper"
 import LoginWrapper from "./LoginWrapper"
 
-const Menu = () => {
+const Navbar = () => {
     return (
         <>
             <Tabs>
@@ -12,7 +13,16 @@ const Menu = () => {
                     <LoginLinksWrapper>
                         <Tab><Link to={'/myaccount'}>Moje konto</Link></Tab>
                         <Tab><Link to={'/addlist'}>Dodaj listę</Link></Tab>
-                        <Tab><Link to={'/mylists'}>Moje listy</Link></Tab>
+                        
+                        <Menu>
+                            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                                Moje listy
+                            </MenuButton>
+                            <MenuList>
+                                <MenuItem><Link to={'/mylists'}>Wszystkie</Link></MenuItem>
+                                <MenuItem><Link to={'/toaccept'}>Do zaakceptowania</Link></MenuItem>
+                            </MenuList>
+                        </Menu>
                         <Tab><Link to={'/todo'}>Listy do realizacji</Link></Tab>
                         <Link to={'/archived'}><Button colorScheme='red'>Archiwum</Button></Link>
                     </LoginLinksWrapper>
@@ -43,4 +53,4 @@ const Menu = () => {
     )
 }
 
-export default Menu
+export default Navbar

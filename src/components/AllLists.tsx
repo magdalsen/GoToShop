@@ -10,6 +10,7 @@ const AllLists = () => {
         .from('lists')
         .select('*')
         .eq('archived', false)
+        .eq('confirmed', false)
         if (error) throw error;
         return data;
     }
