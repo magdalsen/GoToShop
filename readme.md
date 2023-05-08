@@ -42,3 +42,5 @@ User can mark on the selected list that he's going to complete it, it changes th
 
 ## Contact
 mail: magdal.sen@gmail.com
+
+Be aware, that application is during development!
