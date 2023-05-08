@@ -3,6 +3,26 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    width: 80%;
-    margin: 0 auto;
+}
+
+.main {
+    display: flex;
+}
+
+.main label {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 17px;
+    font-size: 17px;
+}
+
+.rightColumn {
+    width: 50vw;
+}
+
+.leftColumn {
+    width: 15vw;
 }

@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useUserContext } from "../contexts/UserContext";
 
 import { schemaLogin } from "./validations/validation";
-import AllLists from "./AllLists";
+import Filter from "./Filter";
 
 export interface LoginData {
     email: string,
@@ -27,7 +27,7 @@ const Login = () => {
 
     return (
         <>
-            {isLoggedIn ? <><AllLists /></> :
+            {isLoggedIn ? <><Filter /></> :
             <>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller

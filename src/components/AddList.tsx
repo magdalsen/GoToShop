@@ -30,6 +30,7 @@ export interface FormValues {
   id: number;
   ownerId: number;
   contractorId: string;
+  city: string;
 }
 
 const AddList = () => {

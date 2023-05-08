@@ -4,7 +4,6 @@ import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-qu
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import AddList from './components/AddList';
-import AllLists from './components/AllLists';
 import {ArchivedLists} from './components/ArchivedLists';
 import ListDetails from './components/ListDetails';
 import MyAccount from './components/MyAccount';
@@ -18,6 +17,7 @@ import { UserProvider } from './contexts/UserContext'
 
 import './App.css'
 import 'leaflet/dist/leaflet.css';
+import Filter from './components/Filter';
 const Login = lazy(() => import("./components/Login"));
 const Faq = lazy(() => import("./components/Faq"));
 const Signup = lazy(() => import("./components/Signup"));
@@ -45,7 +45,7 @@ const App = () => (
               <Navbar />
                 <Suspense fallback={<h1>Still Loading…</h1>}>
                   <Routes>
-                      <Route path="/" element={<AllLists />} />
+                      <Route path="/" element={<Filter />} />
                       <Route path="/login" element={<Login />} />
                       <Route path="/signup" element={<Signup />} />
                       <Route path="/myaccount" element={<MyAccount />} />
