@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import List from './pages/List';
 import style from './MyLists.module.css';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { Checkbox, FormLabel } from '@chakra-ui/react';
 // import { addFilterElement } from '../redux/filterSlice';
 const Filter = () => {
     const [filterTags, setFilterTags] = useState([]);
@@ -23,7 +24,9 @@ const Filter = () => {
 
   const filteredDATA = allListsFilter?.filter((el) =>
     filterTags.length > 0
-      ? filterTags.map((filterTag:string) => filterTag).includes(el.address) || filterTags.map((filterTag:string) => filterTag).includes(el.listName) || filterTags.map((filterTag:string) => filterTag).includes(el.receiveDate)
+      ? filterTags.map((filterTag:string) => filterTag).includes(el.address) || 
+        filterTags.map((filterTag:string) => filterTag).includes(el.listName) || 
+        filterTags.map((filterTag:string) => filterTag).includes(el.receiveDate)
       : allListsFilter
   )
 
@@ -53,41 +56,40 @@ console.log(filterTags);
         <h3>Filtry</h3>
         <h3>Adres dostarczenia:</h3>
         {allListsFilter?.map((el)=>(
-            <label htmlFor={el.address} key={el.address}>
-                <input
-                    type="checkbox"
+            <FormLabel htmlFor={el.address} key={el.address}>
+                <Checkbox
                     onChange={filterHandler}
                     value={el.address}
                     id={el.address}
                 />
                 <span>{el.address}</span>
-            </label>
+            </FormLabel>
         ))}
 
         <h3>Nazwa Listy:</h3>
         {allListsFilter?.map((el)=>(
-            <label htmlFor={el.listName} key={el.listName}>
-                <input
+            <FormLabel htmlFor={el.listName} key={el.listName}>
+                <Checkbox
                     type="checkbox"
                     onChange={filterHandler}
                     value={el.listName}
                     id={el.listName}
                 />
                 <span>{el.listName}</span>
-            </label>
+            </FormLabel>
         ))}
 
         <h3>Data dostarczenia:</h3>
         {allListsFilter?.map((el)=>(
-            <label htmlFor={el.receiveDate} key={el.receiveDate}>
-                <input
+            <FormLabel htmlFor={el.receiveDate} key={el.receiveDate}>
+                <Checkbox
                     type="checkbox"
                     onChange={filterHandler}
                     value={el.receiveDate}
                     id={el.receiveDate}
                 />
                 <span>{el.receiveDate}</span>
-            </label>
+            </FormLabel>
         ))}
       </div>
       <div className={style.rightColumn}>

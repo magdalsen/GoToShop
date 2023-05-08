@@ -49,13 +49,13 @@ const Navbar = () => (
                     
                 </Text>
             </Link>
-            <Text
+            {/* <Text
                 fontSize={theme.fontSizes.m}
                 fontWeight={theme.fontWeight.mid}
                 mb={9}
             >
-                Zrób komuś zakupy lub poproś o nie!
-            </Text>
+                Dobre zakupy
+            </Text> */}
             </Tabs>
         </>
     )

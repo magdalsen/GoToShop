@@ -15,7 +15,7 @@
     flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-start;
-    margin: 17px;
+    margin: 8px 10px 0px 0px;
     font-size: 17px;
 }
 
@@ -25,4 +25,8 @@
 
 .leftColumn {
     width: 15vw;
+}
+
+.leftColumn h3 {
+    margin: 15px 0 0 15px;
 }
