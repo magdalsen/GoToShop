@@ -2,9 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 
 import takeListSlice from "./takeListSlice";
+import filterSlice from "./filterSlice";
 
 const reducer = combineReducers({
-  button: takeListSlice
+  button: takeListSlice,
+  filter: filterSlice
 });
 export const store = configureStore({ reducer });
 // dodajemy dodatkowe hooki i typy do zabezpieczenia reduxa

@@ -11,7 +11,7 @@ import './index.css'
 
 export const theme = {
   fontSizes: {
-    l: '45px',
+    l: '65px',
     m: '16px'
   },
   fontWeight: {

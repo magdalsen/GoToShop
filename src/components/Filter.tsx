@@ -4,8 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import List from './pages/List';
 import style from './MyLists.module.css';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+// import { addFilterElement } from '../redux/filterSlice';
 const Filter = () => {
     const [filterTags, setFilterTags] = useState([]);
+    const filteredThings=useAppSelector(state=>state.filter.filtered);
+    // const dispatch = useAppDispatch();
     const fetchAll = async () => {
         const { data, error } = await supabase
         .from('lists')
@@ -17,14 +21,15 @@ const Filter = () => {
     }
     const {data:allListsFilter, isLoading, error}=useQuery(["allListsFilter"],fetchAll);
 
-  const filteredDATA = allListsFilter?.filter((node) =>
+  const filteredDATA = allListsFilter?.filter((el) =>
     filterTags.length > 0
-      ? filterTags.map((filterTag:string) => filterTag).includes(node.address)
+      ? filterTags.map((filterTag:string) => filterTag).includes(el.address) || filterTags.map((filterTag:string) => filterTag).includes(el.listName) || filterTags.map((filterTag:string) => filterTag).includes(el.receiveDate)
       : allListsFilter
   )
 
   const filterHandler = (event: { target: { checked: any; value: any; }; }) => {
     if (event.target.checked) {
+    //   dispatch(addFilterElement(...filterTags))
       setFilterTags([...filterTags, event.target.value])
     } else {
       setFilterTags(
@@ -39,6 +44,8 @@ const Filter = () => {
   if (isLoading) {
       <div>Loading data...</div>
   }
+console.log(filteredThings);
+console.log(filterTags);
 
   return (
     <div className={style.main}>
@@ -56,16 +63,41 @@ const Filter = () => {
                 <span>{el.address}</span>
             </label>
         ))}
+
+        <h3>Nazwa Listy:</h3>
+        {allListsFilter?.map((el)=>(
+            <label htmlFor={el.listName} key={el.listName}>
+                <input
+                    type="checkbox"
+                    onChange={filterHandler}
+                    value={el.listName}
+                    id={el.listName}
+                />
+                <span>{el.listName}</span>
+            </label>
+        ))}
+
+        <h3>Data dostarczenia:</h3>
+        {allListsFilter?.map((el)=>(
+            <label htmlFor={el.receiveDate} key={el.receiveDate}>
+                <input
+                    type="checkbox"
+                    onChange={filterHandler}
+                    value={el.receiveDate}
+                    id={el.receiveDate}
+                />
+                <span>{el.receiveDate}</span>
+            </label>
+        ))}
       </div>
       <div className={style.rightColumn}>
         <h3>Dostępne listy</h3>
             <div className={style.listsBox}>
-                
-                    {filteredDATA?.map((node) => (
+                    {filteredDATA?.map((el) => (
                         <div>
-                        <Link to={`/listdetails/${node.id}`} key={node.id}>
-                            <div key={node.id}>
-                                <List {...node} />
+                        <Link to={`/listdetails/${el.id}`} key={el.id}>
+                            <div key={el.id}>
+                                <List {...el} />
                             </div>
                         </Link>
                         </div>
