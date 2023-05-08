@@ -1,6 +1,6 @@
 import { SignupData } from "../components/validations/validation";
-import { supabase } from "../supabaseClient";
 import { useUserContext } from "../contexts/UserContext";
+import { supabase } from "../supabaseClient";
 
 export const updateUser = async (values:SignupData, initialEmail:string) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks

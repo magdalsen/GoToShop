@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react";
+
 import style from "./List.module.css";
 
-const List = ({ ...values }) => {
-    return (
+const List = ({ ...values }) => (
         <Box bgImage="url('./list.png')" className={style.oneList}>
             <div>Nazwa listy: {values.listName}</div>
             <div>Szacowany koszt: {values.estimatedCost} zł</div>
@@ -10,6 +10,5 @@ const List = ({ ...values }) => {
             <div>Data dostarczenia: {values.receiveDate}</div>
         </Box>
     )
-}
 
 export default List

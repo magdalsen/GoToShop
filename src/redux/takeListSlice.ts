@@ -6,12 +6,8 @@ export const takeListSlice = createSlice({
   name: "takeListSlice",
   initialState,
   reducers: {
-    buttonDisabled: () => { 
-      return true;
-    },
-    buttonActive: () => {
-      return false;
-    }
+    buttonDisabled: () => true,
+    buttonActive: () => false
   },
 });
 

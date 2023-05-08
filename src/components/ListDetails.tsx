@@ -1,14 +1,17 @@
-import { Box, Button } from "@chakra-ui/react";
-import { Products } from "./AddList";
-import { supabase } from "../supabaseClient";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import style from './ListDetails.module.css';
+import { Box, Button } from "@chakra-ui/react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { useNotificationContext } from "../contexts/NotificationContext";
 import { useUserContext } from "../contexts/UserContext";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { buttonDisabled, buttonActive } from "../redux/takeListSlice";
-import { useEffect } from "react";
-import { useNotificationContext } from "../contexts/NotificationContext";
+import { buttonActive,buttonDisabled } from "../redux/takeListSlice";
+import { supabase } from "../supabaseClient";
+
+import { Products } from "./AddList";
+
+import style from './ListDetails.module.css';
 
 const ListDetails = () => {
     const {toggleAlertSuccess}=useNotificationContext();
@@ -29,7 +32,7 @@ const ListDetails = () => {
           toggleAlertSuccess('Lista dodana do realizacji!');
           navigate("/todo", { replace: true });
           return data;
-      }
+    }
 
     const fetchList = async () => {
         const { data, error } = await supabase

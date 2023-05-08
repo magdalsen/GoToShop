@@ -1,11 +1,13 @@
 import {useEffect} from "react"
-import { Button, Input, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { SignupData, schemaSignup } from "./validations/validation";
-import LocationMarker from "./LocationMarker";
-import { useUserContext } from "../contexts/UserContext";
-import { addUser } from "../api/addUser";
+import { Button, Input, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+import { addUser } from "../api/addUser";
+import { useUserContext } from "../contexts/UserContext";
+
+import { schemaSignup,SignupData } from "./validations/validation";
+import LocationMarker from "./LocationMarker";
 // import { Input as FormInput } from './form/Input'
 
 const Signup = () => {

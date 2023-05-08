@@ -1,12 +1,14 @@
-import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 import { useState } from 'react';
+import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet';
 import { LatLng } from 'leaflet';
+
 import { useUserContext } from '../contexts/UserContext';
+
+import 'leaflet/dist/leaflet.css';
 
 const LocationMarker = () => {
     const {city,getCity}=useUserContext();
-    function LocationMarker() {
+    const LocationMarker = () => {
         const [position, setPosition] = useState<LatLng | null>(null);
 
         const fetchFn = async (params: LatLng) => {

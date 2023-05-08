@@ -1,8 +1,5 @@
-import { Controller,DeepMap,FieldError,FieldErrors,FieldValues } from "react-hook-form";
-import { Input as ChakraInput } from "@chakra-ui/react";
-
-
-import { ValidationRule, UseFormReturn } from "react-hook-form";
+import {DeepMap,FieldError,FieldValues } from "react-hook-form";
+import { UseFormReturn,ValidationRule } from "react-hook-form";
 
 interface InputProps
   extends Partial<Pick<UseFormReturn, "register">> {
@@ -21,8 +18,7 @@ export const Input = ({
   register,
   errors,
   ...rest
-}:InputProps) => {
-  return (
+}:InputProps) => (
     <div className="input-block">
       <label htmlFor={name}>{label}</label>
       <br />
@@ -41,4 +37,3 @@ export const Input = ({
       )}
     </div>
   );
-};

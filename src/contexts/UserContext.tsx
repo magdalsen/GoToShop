@@ -1,7 +1,8 @@
 import { createContext, useState } from "react"
 
-import { getSafeContext } from "./getSafeContext";
 import { supabase } from "../supabaseClient";
+
+import { getSafeContext } from "./getSafeContext";
 import { useNotificationContext } from "./NotificationContext";
 
 type UserContextProps={

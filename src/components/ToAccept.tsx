@@ -1,12 +1,15 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "../supabaseClient";
-import LoginDataWrapper from "./LoginDataWrapper"
-import List from "./pages/List";
-import style from './MyLists.module.css';
 import { useNavigate } from "react-router-dom";
-import { useUserContext } from "../contexts/UserContext";
 import { Button } from "@chakra-ui/react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import { useNotificationContext } from "../contexts/NotificationContext";
+import { useUserContext } from "../contexts/UserContext";
+import { supabase } from "../supabaseClient";
+
+import List from "./pages/List";
+import LoginDataWrapper from "./LoginDataWrapper"
+
+import style from './MyLists.module.css';
 
 const ToAccept = () => {
     const {id}=useUserContext();

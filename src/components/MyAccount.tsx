@@ -1,15 +1,18 @@
 import {useEffect, useState} from "react"
-import { Button, Input, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { SignupData, schemaSignup } from "./validations/validation";
-import { useUserContext } from "../contexts/UserContext";
+import { Button, Input, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 // import updateUser from "../api/updateUser";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { supabase } from "../supabaseClient";
-import LoginDataWrapper from "./LoginDataWrapper";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import style from './MyAccount.module.css';
+
 import { useNotificationContext } from "../contexts/NotificationContext";
+import { useUserContext } from "../contexts/UserContext";
+import { supabase } from "../supabaseClient";
+
+import { schemaSignup,SignupData } from "./validations/validation";
+import LoginDataWrapper from "./LoginDataWrapper";
+
+import style from './MyAccount.module.css';
 // import { Input as FormInput } from './form/Input'
 
 const MyAccount = () => {
@@ -111,7 +114,7 @@ const MyAccount = () => {
                             </RadioGroup>
                             <p>{errors.age?.message}</p>
                             <Input {...register("email")} readOnly className="opacity" type="text" placeholder="E-mail" htmlSize={20} width='auto' />
-                            <p></p>
+                            <p />
                             <Input {...register("password")} type="password" placeholder="Hasło" htmlSize={20} width='auto' />
                             <p>{errors.password?.message}</p>
                             <Input {...register("confirm")} type="password" placeholder="Powtórz hasło" htmlSize={20} width='auto' />

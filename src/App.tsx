@@ -1,21 +1,23 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { UserProvider } from './contexts/UserContext'
-import './App.css'
-import 'leaflet/dist/leaflet.css';
+import { BrowserRouter, Route,Routes } from 'react-router-dom'
+import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+import AddList from './components/AddList';
+import AllLists from './components/AllLists';
+import {ArchivedLists} from './components/ArchivedLists';
+import ListDetails from './components/ListDetails';
 import MyAccount from './components/MyAccount';
 import MyLists from './components/MyLists';
-import AddList from './components/AddList';
-import { QueryClient, QueryCache, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import ToDo from './components/ToDo';
-import TaskCompleted from './components/TaskCompleted';
-import ListDetails from './components/ListDetails';
-import AllLists from './components/AllLists';
 import SubmitList from './components/SubmitList';
-import {ArchivedLists} from './components/ArchivedLists';
-import { NotificationProvider } from './contexts/NotificationContext';
+import TaskCompleted from './components/TaskCompleted';
 import ToAccept from './components/ToAccept';
+import ToDo from './components/ToDo';
+import { NotificationProvider } from './contexts/NotificationContext';
+import { UserProvider } from './contexts/UserContext'
+
+import './App.css'
+import 'leaflet/dist/leaflet.css';
 const Login = lazy(() => import("./components/Login"));
 const Faq = lazy(() => import("./components/Faq"));
 const Signup = lazy(() => import("./components/Signup"));
@@ -31,8 +33,7 @@ const queryClient=new QueryClient({
     }
 })
 
-function App() {
-  return (
+const App = () => (
     <>
       <NotificationProvider>
         <UserProvider>
@@ -68,6 +69,5 @@ function App() {
       </NotificationProvider>
     </>
   )
-}
 
 export default App

@@ -1,12 +1,15 @@
-import { Tabs, TabList, Tab, Text, Button, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react"
-import { ChevronDownIcon } from '@chakra-ui/icons'
-import { theme } from "../main"
 import { Link } from "react-router-dom"
+import { ChevronDownIcon } from '@chakra-ui/icons'
+import { Button, Menu, MenuButton, MenuItem,MenuList, Tab, TabList, Tabs, Text } from "@chakra-ui/react"
+
+import { theme } from "../main"
+
 import LoginLinksWrapper from "./LoginLinksWrapper"
 import LoginWrapper from "./LoginWrapper"
+import { Image } from '@chakra-ui/react'
+import style from './Navbar.module.css'
 
-const Navbar = () => {
-    return (
+const Navbar = () => (
         <>
             <Tabs>
                 <TabList justifyContent='center'>
@@ -37,8 +40,13 @@ const Navbar = () => {
                     fontSize={theme.fontSizes.l}
                     fontWeight={theme.fontWeight.max}
                     mt={9} mb={2}
+                    className={style.navbarTitleContainer}
                 >
-                    Shopping maker
+                    
+                        <Image width='190px' src='../../public/dont.png' alt='dont' className={style.navbarImg} />
+                        GoToShop
+                    
+                    
                 </Text>
             </Link>
             <Text
@@ -51,6 +59,5 @@ const Navbar = () => {
             </Tabs>
         </>
     )
-}
 
 export default Navbar

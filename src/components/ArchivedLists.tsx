@@ -1,9 +1,12 @@
+import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+
 import { useUserContext } from "../contexts/UserContext";
 import { supabase } from "../supabaseClient";
-import LoginDataWrapper from "./LoginDataWrapper";
-import { Link } from "react-router-dom";
+
 import List from "./pages/List";
+import LoginDataWrapper from "./LoginDataWrapper";
+
 import style from './MyLists.module.css';
 
 export const ArchivedLists = () => {

@@ -1,10 +1,8 @@
 
-const Faq = () => {
-    return (
+const Faq = () => (
         <>
             FAQ
         </>
     )
-}
 
 export default Faq

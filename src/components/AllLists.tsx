@@ -1,8 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../supabaseClient";
-import style from './MyLists.module.css';
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
+import { supabase } from "../supabaseClient";
+
 import List from "./pages/List";
+
+import style from './MyLists.module.css';
 
 const AllLists = () => {
     const fetchAllLists = async () => {

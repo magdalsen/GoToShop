@@ -1,6 +1,8 @@
 import { createContext } from "react";
+import { toast,ToastContainer } from "react-toastify";
+
 import { getSafeContext } from "./getSafeContext";
-import { ToastContainer, toast } from "react-toastify";
+
 import 'react-toastify/dist/ReactToastify.css';
 
 type UserContextProps={

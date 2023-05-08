@@ -1,14 +1,17 @@
-import { Button, FormLabel, Input } from "@chakra-ui/react";
-import { useForm, useFieldArray, useWatch, Control } from "react-hook-form";
-import LoginDataWrapper from "./LoginDataWrapper";
-import { supabase } from "../supabaseClient";
-import { useUserContext } from "../contexts/UserContext";
 import { useState } from "react";
-import style from './AddList.module.css';
+import { Control,useFieldArray, useForm, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { Button, FormLabel, Input } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schemaAddList } from "./validations/validation";
+
 import { useNotificationContext } from "../contexts/NotificationContext";
+import { useUserContext } from "../contexts/UserContext";
+import { supabase } from "../supabaseClient";
+
+import { schemaAddList } from "./validations/validation";
+import LoginDataWrapper from "./LoginDataWrapper";
+
+import style from './AddList.module.css';
 
 export interface Products {
     name: string;
@@ -100,8 +103,7 @@ const AddList = () => {
                 <FormLabel display="flex" justifyContent="center">Nazwa listy</FormLabel>
                 <Input {...register("listName")} type="text" placeholder="Nazwa listy" htmlSize={20} width='auto' />
                 <p>{errors.listName?.message}</p>
-                {fields.map((field, index) => {
-                return (
+                {fields.map((field, index) => (
                     <div key={field.id}>
                     <section className={"section"} key={field.id}>
                         <FormLabel display="flex" justifyContent="center">Produkt</FormLabel>
@@ -119,8 +121,7 @@ const AddList = () => {
                         </Button>
                     </section>
                     </div>
-                );
-                })}
+                ))}
 
                 <Button
                 type="button"

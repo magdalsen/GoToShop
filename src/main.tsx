@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import { Provider } from 'react-redux'
 import { ChakraProvider } from '@chakra-ui/react'
 import { extendTheme } from '@chakra-ui/react'
-import { Provider } from 'react-redux'
+
 import { store } from './redux/configureStore.ts'
+import App from './App.tsx'
+
+import './index.css'
 
 export const theme = {
   fontSizes: {
