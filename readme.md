@@ -13,6 +13,7 @@ React JS, Redux, Context API, TypeScript, HTML, CSS
 - TanStack Query
 - React Hook Form
 - Yup
+- Router
 - Toastify
 - Leaflet
 - Supabase
