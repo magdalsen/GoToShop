@@ -17,6 +17,7 @@ export interface Products {
     name: string;
     price: number;
     amount: number;
+    unit: string;
 }
 
 export interface FormValues {
@@ -30,7 +31,6 @@ export interface FormValues {
   id: number;
   ownerId: number;
   contractorId: string;
-  city: string;
 }
 
 const AddList = () => {
@@ -76,7 +76,7 @@ const AddList = () => {
     formState: { errors }
   } = useForm<FormValues>({
     defaultValues: {
-      products: [{ name: "", amount: 0, price: 0 }],
+      products: [{ name: "", amount: 0, price: 0, unit: "" }],
       listName: "",
       receiveDate: new Date(),
       address: "",
@@ -113,6 +113,9 @@ const AddList = () => {
                         <FormLabel display="flex" justifyContent="center">Ilość</FormLabel>
                         <Input {...register(`products.${index}.amount` as const)} type="number" placeholder="Ilość" htmlSize={20} width='auto' />
                         <p>{errors?.products?.[index]?.amount?.message}</p>
+                        <FormLabel display="flex" justifyContent="center">Jednostka</FormLabel>
+                        <Input {...register(`products.${index}.unit` as const)} type="text" placeholder="szt/kg..." htmlSize={20} width='auto' />
+                        <p>{errors?.products?.[index]?.unit?.message}</p>
                         <FormLabel display="flex" justifyContent="center">Cena</FormLabel>
                         <Input {...register(`products.${index}.price` as const)} type="number" placeholder="Cena" htmlSize={20} width='auto' />
                         <p>{errors?.products?.[index]?.price?.message}</p>
@@ -130,7 +133,8 @@ const AddList = () => {
                     append({
                     name: "",
                     amount: 0,
-                    price: 0
+                    price: 0,
+                    unit: ""
                     })
                 }
                 >

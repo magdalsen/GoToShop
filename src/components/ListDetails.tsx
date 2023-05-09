@@ -88,7 +88,7 @@ const ListDetails = () => {
                                     <p>Ilość</p>
                                     {list?.products.map((product:Products)=>(
                                     <div key={Math.random()}>
-                                        <p>{product.amount}</p>
+                                        <p>{product.amount} {product.unit}</p>
                                     </div>
                                     ))}
                                 </div>

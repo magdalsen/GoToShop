@@ -36,6 +36,7 @@ export const schemaLogin = yup.object({
       name: yup.string().min(3, 'Min 3 characters!').required("Wpisz nazwę!"),
       amount: yup.number().required('Wpisz ilość!'),
       price: yup.number().required('Wpisz cenę!'),
+      unit: yup.string().min(2, 'Min 2 characters!').required("Wpisz jednostkę!"),
   }).required();
 
   const ArrayOfCarsSchema = yup.array().of(ProductsSchema);
