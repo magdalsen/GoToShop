@@ -4,23 +4,24 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import List from './pages/List';
 import style from './MyLists.module.css';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { Checkbox, FormLabel } from '@chakra-ui/react';
-// import { addFilterElement } from '../redux/filterSlice';
+import { Checkbox, FormLabel, Input } from '@chakra-ui/react';
+import { useDebounce } from './helpers/useDebounce';
+
 const Filter = () => {
-    const [filterTags, setFilterTags] = useState([]);
-    const filteredThings=useAppSelector(state=>state.filter.filtered);
-    // const dispatch = useAppDispatch();
-    const fetchAll = async () => {
+    const [filterTags, setFilterTags] = useState<string[]>([]);
+    const [searchAddress, setSearchAddress]=useState("");
+
+    const fetchAll = async (address="") => {
         const { data, error } = await supabase
         .from('lists')
         .select('*')
         .eq('archived', false)
         .eq('confirmed', false)
+        .ilike("address", `%${address}%`)
         if (error) throw error;
         return data;
     }
-    const {data:allListsFilter, isLoading, error}=useQuery(["allListsFilter"],fetchAll);
+    const {data:allListsFilter, isLoading, error}=useQuery(["allListsFilter",searchAddress],async ()=>await fetchAll(searchAddress));
 
   const filteredDATA = allListsFilter?.filter((el) =>
     filterTags.length > 0
@@ -30,9 +31,8 @@ const Filter = () => {
       : allListsFilter
   )
 
-  const filterHandler = (event: { target: { checked: any; value: any; }; }) => {
+  const filterHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-    //   dispatch(addFilterElement(...filterTags))
       setFilterTags([...filterTags, event.target.value])
     } else {
       setFilterTags(
@@ -41,20 +41,23 @@ const Filter = () => {
     }
   }
 
+  const changeAddress=useDebounce((e:React.ChangeEvent<HTMLInputElement>)=>{
+    setSearchAddress(e.target.value)
+  },700)
+
   if (error) {
     <div>Sorry, error!</div>
   }
   if (isLoading) {
       <div>Loading data...</div>
   }
-console.log(filteredThings);
-console.log(filterTags);
 
   return (
     <div className={style.main}>
       <div className={style.leftColumn}>
         <h3>Filtry</h3>
         <h3>Adres dostarczenia:</h3>
+        <Input onChange={changeAddress} name="address" />
         {allListsFilter?.map((el)=>(
             <FormLabel htmlFor={el.address} key={el.address}>
                 <Checkbox

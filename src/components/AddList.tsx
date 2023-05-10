@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Control,useFieldArray, useForm, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Button, FormLabel, Input } from "@chakra-ui/react";
+import { Button, FormLabel, Input, Select, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useNotificationContext } from "../contexts/NotificationContext";
@@ -37,7 +37,7 @@ const AddList = () => {
   const {id}=useUserContext();
   const {toggleAlertSuccess}=useNotificationContext();
   const [totalPrice, setTotalPrice] = useState<number>(0);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const Total = ({ control }: { control: Control<FormValues> }) => {
       const formValues = useWatch({
         name: "products",
@@ -104,41 +104,61 @@ const AddList = () => {
                 <FormLabel display="flex" justifyContent="center">Nazwa listy</FormLabel>
                 <Input {...register("listName")} type="text" placeholder="Nazwa listy" htmlSize={20} width='auto' />
                 <p>{errors.listName?.message}</p>
-                {fields.map((field, index) => (
-                    <div key={field.id}>
-                    <section className={"section"} key={field.id}>
-                        <FormLabel display="flex" justifyContent="center">Produkt</FormLabel>
-                        <Input {...register(`products.${index}.name` as const)} type="text" placeholder="Produkt" htmlSize={20} width='auto' />
-                        <p>{errors?.products?.[index]?.name?.message}</p>
-                        <FormLabel display="flex" justifyContent="center">Ilość</FormLabel>
-                        <Input {...register(`products.${index}.amount` as const)} type="number" placeholder="Ilość" htmlSize={20} width='auto' />
-                        <p>{errors?.products?.[index]?.amount?.message}</p>
-                        <FormLabel display="flex" justifyContent="center">Jednostka</FormLabel>
-                        <Input {...register(`products.${index}.unit` as const)} type="text" placeholder="szt/kg..." htmlSize={20} width='auto' />
-                        <p>{errors?.products?.[index]?.unit?.message}</p>
-                        <FormLabel display="flex" justifyContent="center">Cena</FormLabel>
-                        <Input {...register(`products.${index}.price` as const)} type="number" placeholder="Cena" htmlSize={20} width='auto' />
-                        <p>{errors?.products?.[index]?.price?.message}</p>
-
-                        <Button type="button" onClick={() => remove(index)}>
-                        Usuń
-                        </Button>
-                    </section>
-                    </div>
+                <TableContainer>
+                  <Table variant='striped' colorScheme='teal' className={style.table}>
+                  <TableCaption><Total control={control} /></TableCaption>
+                    <Thead>
+                      <Tr>
+                        <Th>Produkt</Th>
+                        <Th>Ilość</Th>
+                        <Th minWidth={160}>Jednostka</Th>
+                        <Th>Cena</Th>
+                        <Th>Usuń</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                    {fields.map((field, index) => (
+                    <>
+                    <Tr key={field.id}>
+                        <Td><Input {...register(`products.${index}.name` as const)} type="text" placeholder="Produkt" /></Td>
+                        <Td><Input {...register(`products.${index}.amount` as const)} type="number" placeholder="Ilość" /></Td>
+                        <Td><Select
+                          placeholder="Wybierz"
+                          {...register(`products.${index}.unit` as const)}
+                        >
+                          <option value="kg">kg</option>
+                          <option value="g">g</option>
+                          <option value="szt">szt</option>
+                          <option value="l">l</option>
+                          <option value="ml">ml</option>
+                        </Select></Td>
+                        <Td><Input {...register(`products.${index}.price` as const)} type="number" placeholder="Cena" /></Td>
+                        <Td onClick={() => remove(index)}>Usuń</Td>
+                    </Tr>
+                    <Tr>
+                      <Td><p>{errors?.products?.[index]?.name?.message}</p></Td>
+                      <Td><p>{errors?.products?.[index]?.amount?.message}</p></Td>
+                      <Td><p>{errors?.products?.[index]?.unit?.message}</p></Td>
+                      <Td><p>{errors?.products?.[index]?.price?.message}</p></Td>
+                      <Td></Td>
+                    </Tr>
+                    </>
                 ))}
-
+                    </Tbody>
+                  </Table>
+                </TableContainer>
                 <Button
-                type="button"
-                onClick={() =>
-                    append({
-                    name: "",
-                    amount: 0,
-                    price: 0,
-                    unit: ""
-                    })
-                }
-                >
-                Dodaj produkt
+                  type="button"
+                  onClick={() =>
+                      append({
+                      name: "",
+                      amount: 0,
+                      price: 0,
+                      unit: ""
+                      })
+                  }
+                  >
+                  Dodaj produkt
                 </Button>
             </div>
             <div className={style.rightColumn}>            
@@ -154,7 +174,6 @@ const AddList = () => {
                 <FormLabel display="flex" justifyContent="center">Telefon kontaktowy</FormLabel>
                 <Input {...register("phone")} type="text" placeholder="Telefon" htmlSize={20} width='auto' />
                 <p>{errors.phone?.message}</p>
-                <Total control={control} />
             </div>
         </div>
         <Button colorScheme='blue' type="submit">Utwórz</Button>
