@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
@@ -49,54 +49,79 @@ const Filter = () => {
     setListName(e.target.value)
   },700)
 
+  const newAddressArray:string[] = [];
+  const newNameArray:string[] = [];
+  const newDateArray:string[] = [];
+  const addressArray = () => {
+      return allListsFilter?.map((el)=>{
+          return newAddressArray.push(el.address)
+      })
+    }
+    const nameArray = () => {
+      return allListsFilter?.map((el)=>{
+          return newNameArray.push(el.listName)
+      })
+    }
+    const dateArray = () => {
+      return allListsFilter?.map((el)=>{
+          return newDateArray.push(el.receiveDate)
+      })
+    }
+    addressArray();
+    nameArray();
+    dateArray();
+    let newSetAddress = [...new Set(newAddressArray)];
+    let newSetName = [...new Set(newNameArray)];
+    let newSetDate = [...new Set(newDateArray)];
+
   if (error) {
     <div>Sorry, error!</div>
   }
   if (isLoading) {
       <div>Loading data...</div>
   }
-  
+
   return (
     <div className={style.main}>
       <div className={style.leftColumn}>
         <h3>Filtry</h3>
         <h3>Adres dostarczenia:</h3>
         <Input onChange={changeAddress} name="address" />
-        {allListsFilter?.map((el)=>(
-            <FormLabel htmlFor={el.address} key={el.address}>
+        {newSetAddress?.map((el)=>(
+            <FormLabel htmlFor={el} key={el}>
                 <Checkbox
                     onChange={filterHandler}
-                    value={el.address}
-                    id={el.address}
+                    value={el}
+                    id={el}
                 />
-                <span>{el.address}</span>
+                <span>{el}</span>
             </FormLabel>
         ))}
 
         <h3>Nazwa Listy:</h3>
         <Input onChange={changeListName} name="listName" />
-        {allListsFilter?.map((el)=>(
-            <FormLabel htmlFor={el.listName} key={el.listName}>
+        {newSetName?.map((el)=>(
+            <FormLabel htmlFor={el} key={el}>
                 <Checkbox
                     type="checkbox"
                     onChange={filterHandler}
-                    value={el.listName}
-                    id={el.listName}
+                    value={el}
+                    id={el}
                 />
-                <span>{el.listName}</span>
+                <span>{el}</span>
             </FormLabel>
         ))}
 
         <h3>Data dostarczenia:</h3>
-        {allListsFilter?.map((el)=>(
-            <FormLabel htmlFor={el.receiveDate} key={el.receiveDate}>
+        {newSetDate?.map((el)=>(
+            <FormLabel htmlFor={el} key={el}>
                 <Checkbox
                     type="checkbox"
                     onChange={filterHandler}
-                    value={el.receiveDate}
-                    id={el.receiveDate}
+                    value={el}
+                    id={el}
                 />
-                <span>{el.receiveDate}</span>
+                <span>{el}</span>
             </FormLabel>
         ))}
       </div>
