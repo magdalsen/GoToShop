@@ -10,18 +10,19 @@ import { useDebounce } from './helpers/useDebounce';
 const Filter = () => {
     const [filterTags, setFilterTags] = useState<string[]>([]);
     const [searchAddress, setSearchAddress]=useState("");
-
-    const fetchAll = async (address="") => {
+    const [searchListName, setListName]=useState("");
+    const fetchAll = async (address="",listName="") => {
         const { data, error } = await supabase
         .from('lists')
         .select('*')
         .eq('archived', false)
         .eq('confirmed', false)
         .ilike("address", `%${address}%`)
+        .ilike("listName", `%${listName}%`)
         if (error) throw error;
         return data;
     }
-    const {data:allListsFilter, isLoading, error}=useQuery(["allListsFilter",searchAddress],async ()=>await fetchAll(searchAddress));
+    const {data:allListsFilter, isLoading, error}=useQuery(["allListsFilter",searchAddress,searchListName],async ()=>await fetchAll(searchAddress,searchListName));
 
   const filteredDATA = allListsFilter?.filter((el) =>
     filterTags.length > 0
@@ -43,6 +44,9 @@ const Filter = () => {
 
   const changeAddress=useDebounce((e:React.ChangeEvent<HTMLInputElement>)=>{
     setSearchAddress(e.target.value)
+  },700);
+  const changeListName=useDebounce((e:React.ChangeEvent<HTMLInputElement>)=>{
+    setListName(e.target.value)
   },700)
 
   if (error) {
@@ -51,7 +55,7 @@ const Filter = () => {
   if (isLoading) {
       <div>Loading data...</div>
   }
-
+  
   return (
     <div className={style.main}>
       <div className={style.leftColumn}>
@@ -70,6 +74,7 @@ const Filter = () => {
         ))}
 
         <h3>Nazwa Listy:</h3>
+        <Input onChange={changeListName} name="listName" />
         {allListsFilter?.map((el)=>(
             <FormLabel htmlFor={el.listName} key={el.listName}>
                 <Checkbox
