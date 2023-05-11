@@ -1,9 +1,10 @@
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 
 import { supabase } from "../supabaseClient";
 
 import { getSafeContext } from "./getSafeContext";
 import { useNotificationContext } from "./NotificationContext";
+import Filter from "../components/Filter";
 
 type UserContextProps={
     login: (username:string,password:string)=>void;
@@ -56,7 +57,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
      }
   }
 
-  const login= (username:string,password:string)=>{
+  const login = (username:string,password:string)=>{
     loginData(username,password);
   }
 
@@ -64,6 +65,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
      setIsLogged(false);
      const { error } = await supabase.auth.signOut();
      if (error) throw error;
+     <Filter />
   }
 
   const getCity = (city:string) => {

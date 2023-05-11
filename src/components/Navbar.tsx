@@ -27,6 +27,15 @@ const Navbar = () => (
                             </MenuList>
                         </Menu>
                         <Tab><Link to={'/todo'}>Listy do realizacji</Link></Tab>
+                        <Menu>
+                            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                                Zatwierdzone
+                            </MenuButton>
+                            <MenuList>
+                                <MenuItem><Link to={'/approved'}>Przez odbiorcę</Link></MenuItem>
+                                <MenuItem><Link to={'/myapproved'}>Przeze mnie</Link></MenuItem>
+                            </MenuList>
+                        </Menu>
                         <Link to={'/archived'}><Button colorScheme='red'>Archiwum</Button></Link>
                     </LoginLinksWrapper>
                     <LoginWrapper>

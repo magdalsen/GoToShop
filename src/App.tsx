@@ -18,6 +18,8 @@ import { UserProvider } from './contexts/UserContext'
 import './App.css'
 import 'leaflet/dist/leaflet.css';
 import Filter from './components/Filter';
+import Approved from './components/Approved';
+import MyApproved from './components/MyApproved';
 const Login = lazy(() => import("./components/Login"));
 const Faq = lazy(() => import("./components/Faq"));
 const Signup = lazy(() => import("./components/Signup"));
@@ -57,6 +59,8 @@ const App = () => (
                       <Route path="/submitlist/:id" index element={<SubmitList />} />
                       <Route path="/addlist" element={<AddList />} />
                       <Route path="/toaccept" element={<ToAccept />} />
+                      <Route path="/approved" element={<Approved />} />
+                      <Route path="/myapproved" element={<MyApproved />} />
                       <Route path="/todo" element={<ToDo />} />
                       <Route path="/faq" element={<Faq />} />
                       <Route path="/archived" element={<ArchivedLists />} />

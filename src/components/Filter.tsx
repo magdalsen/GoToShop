@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { supabase } from '../supabaseClient';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
@@ -6,23 +6,49 @@ import List from './pages/List';
 import style from './MyLists.module.css';
 import { Checkbox, FormLabel, Input } from '@chakra-ui/react';
 import { useDebounce } from './helpers/useDebounce';
+import { useUserContext } from '../contexts/UserContext';
 
 const Filter = () => {
     const [filterTags, setFilterTags] = useState<string[]>([]);
     const [searchAddress, setSearchAddress]=useState("");
     const [searchListName, setListName]=useState("");
-    const fetchAll = async (address="",listName="") => {
-        const { data, error } = await supabase
-        .from('lists')
-        .select('*')
-        .eq('archived', false)
-        .eq('confirmed', false)
-        .ilike("address", `%${address}%`)
-        .ilike("listName", `%${listName}%`)
-        if (error) throw error;
-        return data;
+    const [searchReceiveDate, setReceiveDate]=useState("");
+    const [city, setCity]=useState<string>("");
+    const {id,isLoggedIn} = useUserContext();
+    const fetchAll2 = async (address="",listName="",receiveDate="") => {
+      const { data, error } = await supabase
+      .from('lists')
+      .select('*')
+      .eq('archived', false)
+      .eq('confirmed', false)
+      .ilike("address", `%${address}%`)
+      .ilike("listName", `%${listName}%`)
+      .ilike("receiveDate", `%${receiveDate}%`)
+      if (error) throw error;
+      return data;
     }
-    const {data:allListsFilter, isLoading, error}=useQuery(["allListsFilter",searchAddress,searchListName],async ()=>await fetchAll(searchAddress,searchListName));
+    const fetchAll = async (address="",listName="",receiveDate="") => {
+      const { data:userCity, error:errorCity } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', id);
+        if (errorCity) throw errorCity;
+        setCity(userCity[0].city);
+        if (userCity) {
+          const { data, error } = await supabase
+          .from('lists')
+          .select('*')
+          .eq('archived', false)
+          .eq('confirmed', false)
+          .eq('city', userCity[0].city)
+          .ilike("address", `%${address}%`)
+          .ilike("listName", `%${listName}%`)
+          .ilike("receiveDate", `%${receiveDate}%`)
+          if (error) throw error;
+          return data;
+        }
+    }
+    const {data:allListsFilter, isLoading, error}=useQuery(["allListsFilter",searchAddress,searchListName,searchReceiveDate],async ()=>isLoggedIn ? await fetchAll(searchAddress,searchListName,searchReceiveDate) : await fetchAll2(searchAddress,searchListName,searchReceiveDate));
 
   const filteredDATA = allListsFilter?.filter((el) =>
     filterTags.length > 0
@@ -47,6 +73,9 @@ const Filter = () => {
   },700);
   const changeListName=useDebounce((e:React.ChangeEvent<HTMLInputElement>)=>{
     setListName(e.target.value)
+  },700)
+  const changeReceiveDate=useDebounce((e:React.ChangeEvent<HTMLInputElement>)=>{
+    setReceiveDate(e.target.value)
   },700)
 
   const newAddressArray:string[] = [];
@@ -86,7 +115,7 @@ const Filter = () => {
       <div className={style.leftColumn}>
         <h3>Filtry</h3>
         <h3>Adres dostarczenia:</h3>
-        <Input onChange={changeAddress} name="address" />
+        <Input onChange={changeAddress} name="address" placeholder="Wpisz adres" />
         {newSetAddress?.map((el)=>(
             <FormLabel htmlFor={el} key={el}>
                 <Checkbox
@@ -99,7 +128,7 @@ const Filter = () => {
         ))}
 
         <h3>Nazwa Listy:</h3>
-        <Input onChange={changeListName} name="listName" />
+        <Input onChange={changeListName} name="listName" placeholder="Wpisz nazwę" />
         {newSetName?.map((el)=>(
             <FormLabel htmlFor={el} key={el}>
                 <Checkbox
@@ -113,6 +142,7 @@ const Filter = () => {
         ))}
 
         <h3>Data dostarczenia:</h3>
+        <Input onChange={changeReceiveDate} name="receiveDate" placeholder="rrrr-mm-dd" />
         {newSetDate?.map((el)=>(
             <FormLabel htmlFor={el} key={el}>
                 <Checkbox
@@ -126,7 +156,7 @@ const Filter = () => {
         ))}
       </div>
       <div className={style.rightColumn}>
-        <h3>Dostępne listy</h3>
+        <h3>Dostępne listy {isLoggedIn ? `dla miasta ${city}` : ''}</h3>
             <div className={style.listsBox}>
                     {filteredDATA?.map((el) => (
                         <div>

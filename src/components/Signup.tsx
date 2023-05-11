@@ -8,10 +8,36 @@ import { useUserContext } from "../contexts/UserContext";
 
 import { schemaSignup,SignupData } from "./validations/validation";
 import LocationMarker from "./LocationMarker";
+import { supabase } from "../supabaseClient";
+import { useNotificationContext } from "../contexts/NotificationContext";
 // import { Input as FormInput } from './form/Input'
 
 const Signup = () => {
     const {city}=useUserContext();
+    const {toggleAlertSuccess, toggleAlertError}=useNotificationContext();
+    const addUser = async (values:SignupData) => {
+      const {email,password,name,age,city}=values;
+
+      const { data, error } = await supabase.auth.signUp({ 
+        email: email,
+        password: password
+      })
+      if (error) throw error;
+      if (data && data.user) {
+        const { data:userData, error } = await supabase
+        .from('users')
+        .insert([
+          { id: data.user?.id, name, email, age, city }
+        ])
+        if (error != null) {
+          toggleAlertError("User already exist! Use different email");
+          throw error;
+        }
+        if (userData === null) {
+          toggleAlertSuccess(`Client ${values.email} registered!`);
+        }
+      }
+    }
 
       useEffect(() => {
         setValue("city", city)

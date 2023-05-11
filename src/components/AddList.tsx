@@ -60,10 +60,15 @@ const AddList = () => {
   };
 
   const addList = async (values:FormValues) => {
+    const { data:userCity, error:errorCity } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', id);
+    if (errorCity) throw errorCity;
     const { data, error } = await supabase
     .from('lists')
     .insert([
-      { ...values, estimatedCost: totalPrice, ownerId: id }
+      { ...values, estimatedCost: totalPrice, ownerId: id, city: userCity[0].city }
     ])
     if (error) throw error;
     return data;

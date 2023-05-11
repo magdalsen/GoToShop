@@ -16,9 +16,8 @@ export const ArchivedLists = () => {
         .from('lists')
         .select('*')
         .match({
-            // contractorId: id,
             archived: true,
-            confirmed: true
+            inprogress: false,
         })
         if (error) throw error;
         return data;

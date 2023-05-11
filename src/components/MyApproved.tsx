@@ -11,7 +11,7 @@ import LoginDataWrapper from "./LoginDataWrapper"
 
 import style from './MyLists.module.css';
 
-const ToAccept = () => {
+const MyApproved = () => {
     const {id}=useUserContext();
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -22,28 +22,28 @@ const ToAccept = () => {
         .select('*')
         .eq('ownerId', id)
         .eq('archived', false)
-        .eq('confirmed', true)
+        .eq('approved', true)
         if (error) throw error;
         return data;
     }
-    const {data:lists, isLoading, error}=useQuery(["listsToAccept",id],fetchLists);
+    const {data:lists, isLoading, error}=useQuery(["listsToApproveByMe",id],fetchLists);
 
     const handleClick = async (id:number) => {
         const { data, error } = await supabase
         .from('lists')
         .update([
-          { approved: true }
+          { archived: true, inprogress: false }
         ])
         .eq('id', id)
         if (error) throw error;
-        toggleAlertSuccess('Lista zaakceptowana!');
+        toggleAlertSuccess('Lista zarchiwizowana!');
         navigate("/taskcompleted", { replace: true });
         return data;
     }
 
     const mutation = useMutation(async (accId:number)=>await handleClick(accId), {
         onSuccess: () => {
-          queryClient.invalidateQueries(['listAccepted']);
+          queryClient.invalidateQueries(['listsToApproveByMe']);
         },
         onError: ()=>{
           throw new Error("Something went wrong :(");
@@ -56,8 +56,8 @@ const ToAccept = () => {
     if (isLoading) {
         <div>Loading data...</div>
     }
-
     return (
+        <>
         <LoginDataWrapper>
                 <div className={style.listsBox}>
                     {lists?.map((values)=>(
@@ -66,13 +66,15 @@ const ToAccept = () => {
                                 <List {...values} />
                             </div>
                             <div>
-                                <Button colorScheme="blue" type="submit" onClick={()=>handleClick(values.id)} onChange={()=>mutation.mutate(values.id)}>Zaakceptuj listę</Button>
+                                <Button colorScheme="blue" type="submit" onClick={()=>handleClick(values.id)} onChange={()=>mutation.mutate(values.id)}>Zarchiwizuj listę</Button>
+                                <Button colorScheme="green" type="submit">Zrealizuj ponownie</Button>
                             </div>
                         </div>
                     ))}
                 </div>
         </LoginDataWrapper>
+        </>
     )
 }
 
-export default ToAccept
+export default MyApproved

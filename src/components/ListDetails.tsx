@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { Box, Button } from "@chakra-ui/react";
+import { Badge, Box, Button, Stack } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useNotificationContext } from "../contexts/NotificationContext";
@@ -26,7 +26,7 @@ const ListDetails = () => {
     const updateList = async () => {
         const { data, error } = await supabase
           .from('lists')
-          .update({ contractorId: id })
+          .update({ contractorId: id, inprogress: true })
           .eq('id', listId.id)
           if (error) throw error;
           toggleAlertSuccess('Lista dodana do realizacji!');
@@ -72,6 +72,14 @@ const ListDetails = () => {
     return (
             <div className={list?.archived ? style.opacity : '' }>
                 <Box bgImage="url('./list.png')" className={style.oneList}>
+                    <div>
+                    <Stack direction='row' className={style.statusBox}>
+                        {!list?.archived && !list?.confirmed && !list?.approved && !list?.inprogress ? <Badge colorScheme='green'>Do wzięcia</Badge> : ''}
+                        {list?.inprogress && !list?.confirmed && !list?.approved && !list?.archived ? <Badge colorScheme='yellow'>W realizacji</Badge> : ''}
+                        {list?.confirmed || list?.approved ? <Badge colorScheme='purple'>Zrealizowana</Badge> : ''}
+                        {list?.archived ? <Badge colorScheme='red'>Archiwum</Badge> : ''}
+                    </Stack>
+                    </div>
                     <div>Nazwa listy: {list?.listName}</div>
                     <div className={style.productData}>
                         <div>Produkty:
