@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { Badge, Box, Button, Stack } from "@chakra-ui/react";
+import { Badge, Box, Button, Stack, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useNotificationContext } from "../contexts/NotificationContext";
@@ -83,24 +83,34 @@ const ListDetails = () => {
                     <div>Nazwa listy: {list?.listName}</div>
                     <div className={style.productData}>
                         <div>Produkty:
-                            <div className={style.onlyProducts}>
-                                <div>
-                                <p>Nazwa</p>
-                                    {list?.products.map((product:Products)=>(
-                                    <div key={Math.random()}>
-                                        <p>{product.name}</p>
-                                    </div>
-                                    ))}
-                                </div>
-                                <div>
-                                    <p>Ilość</p>
-                                    {list?.products.map((product:Products)=>(
-                                    <div key={Math.random()}>
-                                        <p>{product.amount} {product.unit}</p>
-                                    </div>
-                                    ))}
-                                </div>
-                            </div>
+                            <TableContainer>
+                                <Table variant='simple'>
+                                    <Thead>
+                                        <Tr>
+                                            <Th>Nazwa</Th>
+                                            <Th>Ilość</Th>
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                        <Tr>
+                                            <Td>
+                                                {list?.products.map((product:Products)=>(
+                                                <div key={Math.random()}>
+                                                    <p>{product.name}</p>
+                                                </div>
+                                                ))}
+                                            </Td>
+                                            <Td>
+                                                {list?.products.map((product:Products)=>(
+                                                <div key={Math.random()}>
+                                                    <p>{product.amount} {product.unit}</p>
+                                                </div>
+                                                ))}
+                                            </Td>
+                                        </Tr>
+                                    </Tbody>
+                                </Table>
+                            </TableContainer>
                         </div>
                         <div>
                             <div>Szacowany koszt: {list?.estimatedCost} zł</div>
