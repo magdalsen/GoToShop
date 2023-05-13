@@ -162,7 +162,7 @@ const Filter = () => {
         <h3>Dostępne listy {isLoggedIn ? `dla miasta ${city}` : ''}</h3>
             <div className={style.listsBox}>
                     {filteredDATA?.map((el) => (
-                        <div>
+                        <div key={el.id}>
                         <Link to={`/listdetails/${el.id}`} key={el.id}>
                             <div key={el.id}>
                                 <List {...el} />
