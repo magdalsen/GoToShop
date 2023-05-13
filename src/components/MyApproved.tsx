@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -67,7 +67,9 @@ const MyApproved = () => {
                             </div>
                             <div>
                                 <Button colorScheme="blue" type="submit" onClick={()=>handleClick(values.id)} onChange={()=>mutation.mutate(values.id)}>Zarchiwizuj listę</Button>
-                                <Button colorScheme="green" type="submit">Zrealizuj ponownie</Button>
+                                <Link to={`/repeatlist/${values.id}`}>
+                                    <Button colorScheme="green" type="submit">Zrealizuj ponownie</Button>
+                                </Link>
                             </div>
                         </div>
                     ))}

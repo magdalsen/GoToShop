@@ -48,7 +48,10 @@ const Filter = () => {
           return data;
         }
     }
-    const {data:allListsFilter, isLoading, error}=useQuery(["allListsFilter",searchAddress,searchListName,searchReceiveDate],async ()=>isLoggedIn ? await fetchAll(searchAddress,searchListName,searchReceiveDate) : await fetchAll2(searchAddress,searchListName,searchReceiveDate));
+    const {data:allListsFilter, isLoading, error}=useQuery(["allListsFilter",searchAddress,searchListName,searchReceiveDate],
+      async ()=>isLoggedIn ? 
+        await fetchAll(searchAddress,searchListName,searchReceiveDate) : 
+        await fetchAll2(searchAddress,searchListName,searchReceiveDate));
 
   const filteredDATA = allListsFilter?.filter((el) =>
     filterTags.length > 0

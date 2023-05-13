@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Control,useFieldArray, useForm, useWatch } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, FormLabel, Input, Select, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -12,6 +12,7 @@ import { schemaAddList } from "./validations/validation";
 import LoginDataWrapper from "./LoginDataWrapper";
 
 import style from './AddList.module.css';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export interface Products {
     name: string;
@@ -23,7 +24,7 @@ export interface Products {
 export interface FormValues {
   products: Products[];
   listName: string;
-  receiveDate: string;
+  receiveDate: Date;
   address: string;
   estimatedCost: number;
   tip: number;
@@ -33,11 +34,44 @@ export interface FormValues {
   contractorId: string;
 }
 
-const AddList = () => {
+const RepeatList = () => {
   const {id}=useUserContext();
   const {toggleAlertSuccess}=useNotificationContext();
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const listId = useParams();
+
+  const fetchListData = async () => {
+    const { data, error } = await supabase
+    .from('lists')
+    .select('*')
+    .eq('id', listId.id);
+    if (error) throw error;
+    return data[0];
+  }
+  const {data:list,isLoading,error}=useQuery(['listRepeat',id],fetchListData);
+
+  const mutation = useMutation(async ()=>await fetchListData(), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['listRepeat',id]);
+    },
+    onError: ()=>{
+      throw new Error("Something went wrong :(");
+    }
+});
+
+useEffect(()=>{
+    mutation.mutate();
+    fetchListData().then(()=>{
+        setValue('products', list?.products);
+        setValue('listName', list?.listName);
+        setValue('receiveDate', list?.receiveDate);
+        setValue('address', list?.address);
+        setValue('phone', list?.phone);
+    })
+},[]);
+
   const Total = ({ control }: { control: Control<FormValues> }) => {
       const formValues = useWatch({
         name: "products",
@@ -59,7 +93,7 @@ const AddList = () => {
       </>;
   };
 
-  const addList = async (values:FormValues) => {
+  const repeatList = async (values:FormValues) => {
     const { data:userCity, error:errorCity } = await supabase
     .from('users')
     .select('*')
@@ -68,7 +102,7 @@ const AddList = () => {
     const { data, error } = await supabase
     .from('lists')
     .insert([
-      { ...values, estimatedCost: totalPrice, ownerId: id, city: userCity[0].city }
+      { ...values, estimatedCost: totalPrice, ownerId: id, city: userCity[0].city, confirmed: false, approved: false, inprogress: false }
     ])
     if (error) throw error;
     return data;
@@ -78,15 +112,18 @@ const AddList = () => {
     register,
     control,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setValue
   } = useForm<FormValues>({
     defaultValues: {
-      products: [{ name: "", amount: 0, price: 0, unit: "" }],
-      listName: "",
-      receiveDate: "",
-      address: "",
-      tip: 0,
-      phone: ""
+      products: list?.products.map((el: { name: string; amount: string; price: string; unit: string; })=>{
+        return [{ name: el?.name, amount: el?.amount, price: el?.price, unit: el?.unit }]
+      }),
+      listName: list?.listName,
+      receiveDate: list?.receiveDate,
+      address: list?.address,
+      tip: list?.tip,
+      phone: list?.phone
     },
     resolver: yupResolver(schemaAddList),
     mode: "onBlur"
@@ -96,10 +133,18 @@ const AddList = () => {
     control
   });
   const onSubmit = (data: FormValues) => {
-    addList(data);
+    repeatList(data);
     toggleAlertSuccess('Lista dodana!');
     navigate("/taskcompleted", { replace: true });
   };
+
+  if(error){
+    return <p>Cannot get data</p>
+  }
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <LoginDataWrapper>
@@ -181,10 +226,10 @@ const AddList = () => {
                 <p>{errors.phone?.message}</p>
             </div>
         </div>
-        <Button colorScheme='blue' type="submit">Utwórz</Button>
+        <Button colorScheme='blue' type="submit">Utwórz ponownie</Button>
       </form>
     </LoginDataWrapper>
   );
 }
 
-export default AddList
+export default RepeatList

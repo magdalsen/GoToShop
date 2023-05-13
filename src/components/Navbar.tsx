@@ -12,7 +12,7 @@ import style from './Navbar.module.css'
 const Navbar = () => (
         <>
             <Tabs>
-                <TabList justifyContent='center'>
+                <TabList justifyContent='center' display='flex' alignItems='center'>
                     <LoginLinksWrapper>
                         <Tab><Link to={'/myaccount'}>Moje konto</Link></Tab>
                         <Tab><Link to={'/addlist'}>Dodaj listę</Link></Tab>

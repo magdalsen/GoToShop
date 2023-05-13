@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { Button, Input, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { addUser } from "../api/addUser";
 import { useUserContext } from "../contexts/UserContext";
 
 import { schemaSignup,SignupData } from "./validations/validation";

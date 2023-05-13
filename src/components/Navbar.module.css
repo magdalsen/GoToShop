@@ -6,3 +6,7 @@
     margin: 70px 0 12px 0;
     display: inline-block;
 }
+
+.tablist {
+    display: flex;
+}

@@ -20,6 +20,7 @@ import 'leaflet/dist/leaflet.css';
 import Filter from './components/Filter';
 import Approved from './components/Approved';
 import MyApproved from './components/MyApproved';
+import RepeatList from './components/RepeatList';
 const Login = lazy(() => import("./components/Login"));
 const Faq = lazy(() => import("./components/Faq"));
 const Signup = lazy(() => import("./components/Signup"));
@@ -61,6 +62,7 @@ const App = () => (
                       <Route path="/toaccept" element={<ToAccept />} />
                       <Route path="/approved" element={<Approved />} />
                       <Route path="/myapproved" element={<MyApproved />} />
+                      <Route path="/repeatlist/:id" index element={<RepeatList />} />
                       <Route path="/todo" element={<ToDo />} />
                       <Route path="/faq" element={<Faq />} />
                       <Route path="/archived" element={<ArchivedLists />} />

@@ -1,7 +1,23 @@
+.userData {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .userData > div {
     margin: 10px;
 }
 
+.userData > input {
+    width: 277px;
+}
+
 .userData > div > span {
     font-weight: bold;
+}
+
+.image {
+    width: 100px;
+    border-radius: 50px;
+    border: 2px solid blueviolet;
 }

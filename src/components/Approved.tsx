@@ -1,8 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { useNotificationContext } from "../contexts/NotificationContext";
 import { useUserContext } from "../contexts/UserContext";
 import { supabase } from "../supabaseClient";
 
@@ -15,8 +14,6 @@ import { useEffect } from "react";
 const Approved = () => {
     const {id}=useUserContext();
     const queryClient = useQueryClient();
-    const navigate = useNavigate();
-    const {toggleAlertSuccess}=useNotificationContext();
     const fetchLists = async () => {
         const { data, error } = await supabase
         .from('lists')
