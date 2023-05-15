@@ -13,6 +13,7 @@ import { schemaSignup,SignupData } from "./validations/validation";
 import LoginDataWrapper from "./LoginDataWrapper";
 import { v4 as uuidv4 } from 'uuid';
 import style from './MyAccount.module.css';
+import { FileObject } from "@supabase/storage-js";
 // import { Input as FormInput } from './form/Input'
 
 const MyAccount = () => {
@@ -20,7 +21,7 @@ const MyAccount = () => {
     const [editedUser, setEditUser] = useState(false);
     const queryClient = useQueryClient();
     const {toggleAlertSuccess}=useNotificationContext();
-    const [media, setMedia] = useState<string[]>([]);
+    const [media, setMedia] = useState<FileObject[]>([]);
 
     const updateUser = async (values:SignupData, initialEmail:string) => {
         const { data, error } = await supabase.auth.updateUser({ email: initialEmail, password: values.password });
@@ -65,8 +66,8 @@ const MyAccount = () => {
       }
 
       async function uploadImage(e: ChangeEvent<HTMLInputElement>) {
-        let file = e.target.files[0];
-    
+        const target = e.target as HTMLInputElement;
+        const file: File = (target.files as FileList)[0];
     
         const { data, error } = await supabase
           .storage

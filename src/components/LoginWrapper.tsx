@@ -22,7 +22,7 @@ const LoginWrapper = ({children}:{children:React.ReactNode}) => {
           throw error
         }
       }
-      const {data:media,isLoading,error}=useQuery(['avatar'],getMedia);
+      const {data:media,isLoading,error}=useQuery(['avatar',id,email],getMedia);
 
       if(error){
         return <p>Cannot get data</p>

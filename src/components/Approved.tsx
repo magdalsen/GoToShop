@@ -50,7 +50,7 @@ const Approved = () => {
 
     useEffect(()=>{
         mutation.mutate();
-    })
+    },[]);
 
     if (error) {
         <div>Sorry, error!</div>
