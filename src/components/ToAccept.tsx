@@ -61,8 +61,8 @@ const ToAccept = () => {
         <LoginDataWrapper>
                 <div className={style.listsBox}>
                     {lists?.map((values)=>(
-                        <div>
-                            <div key={values.id}>
+                        <div key={values.id}>
+                            <div>
                                 <List {...values} />
                             </div>
                             <div>

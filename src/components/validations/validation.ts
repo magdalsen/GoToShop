@@ -13,7 +13,7 @@ export const schemaLogin = yup.object({
   }).required();
 
   export const schemaSignup = yup.object({
-    name: yup.string().min(3, 'Min 3 characters!').required("Name required!"),
+    name: yup.string().min(3, 'Min. 3 znaki!').required("Name required!"),
     age: yup.string().required('Select age!'),
     email: yup.string().email('Invalid email').required('E-mail required!'),
     password: yup.string()
@@ -33,7 +33,7 @@ export const schemaLogin = yup.object({
   export type SignupData = InferType<typeof schemaSignup>
   
   const ProductsSchema = yup.object().shape({
-      name: yup.string().min(3, 'Min 3 characters!').required("Wpisz nazwę!"),
+      name: yup.string().min(3, 'Min. 3 znaki!').required("Wpisz nazwę!"),
       amount: yup.number().required('Wpisz ilość!'),
       price: yup.number().required('Wpisz cenę!'),
       unit: yup.string().required('Wybierz jednostkę!'),

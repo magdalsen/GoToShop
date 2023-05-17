@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -9,7 +10,6 @@ import List from "./pages/List";
 import LoginDataWrapper from "./LoginDataWrapper"
 
 import style from './MyLists.module.css';
-import { useEffect } from "react";
 
 const Approved = () => {
     const {id}=useUserContext();
@@ -63,8 +63,8 @@ const Approved = () => {
         <LoginDataWrapper>
                 <div className={style.listsBox}>
                     {lists?.map((values)=>(
-                        <div>
-                            <div key={values.id}>
+                        <div key={values.id}>
+                            <div>
                                 <List {...values} />
                             </div>
                             <div>

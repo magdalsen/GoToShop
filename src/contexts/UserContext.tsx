@@ -1,21 +1,23 @@
 import { createContext, useState } from "react"
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 
 import { supabase } from "../supabaseClient";
 
 import { getSafeContext } from "./getSafeContext";
 import { useNotificationContext } from "./NotificationContext";
-import Filter from "../components/Filter";
 
 type UserContextProps={
     login: (username:string,password:string)=>void;
     loginData: (username:string,password:string)=>Promise<boolean | undefined>;
     logOut: ()=>void;
     getCity: (city:string)=>void;
+    getAvatar: (image:string)=>void;
     isLoggedIn:boolean;
     image: string | undefined;
     email: string | undefined;
     city: string;
     id: string;
+    avatar: string;
 }
 
 export const UserContext=createContext<UserContextProps|null>(null)
@@ -26,7 +28,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [image, setImage] = useState<string>('');
   const [email, setEmail] = useState<string | undefined>('');
   const [city, setCity] = useState<string>('');
+  const [avatar, setAvatar] = useState<string>('');
   const [id, setId] = useState<string>('');
+  // const queryClient = useQueryClient();
 
   async function getProfile(id: string | undefined) {
     const { data:image } = await supabase
@@ -65,15 +69,18 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
      setIsLogged(false);
      const { error } = await supabase.auth.signOut();
      if (error) throw error;
-     <Filter />
   }
 
   const getCity = (city:string) => {
     setCity(city);
   }
 
+  const getAvatar = (image:string) => {
+    setAvatar(image);
+  }
+
     return (
-      <UserContext.Provider value={{ email, image, login, loginData, logOut, getCity, city, isLoggedIn, id }}>
+      <UserContext.Provider value={{ email, image, login, loginData, logOut, getCity, getAvatar, city, isLoggedIn, id, avatar }}>
         {children}
       </UserContext.Provider>
     );

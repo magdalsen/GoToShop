@@ -1,8 +1,9 @@
 import { Badge, Box, Stack } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+
+import { supabase } from "../../supabaseClient";
 
 import style from "./List.module.css";
-import { supabase } from "../../supabaseClient";
-import { useQuery } from "@tanstack/react-query";
 
 const List = ({ ...values }) => {
     const fetchList = async () => {

@@ -123,7 +123,6 @@ const AddList = () => {
                     </Thead>
                     <Tbody>
                     {fields.map((field, index) => (
-                    <>
                     <Tr key={field.id}>
                         <Td><Input {...register(`products.${index}.name` as const)} type="text" placeholder="Produkt" /></Td>
                         <Td><Input {...register(`products.${index}.amount` as const)} type="number" placeholder="Ilość" /></Td>
@@ -138,16 +137,15 @@ const AddList = () => {
                           <option value="ml">ml</option>
                         </Select></Td>
                         <Td><Input {...register(`products.${index}.price` as const)} type="number" placeholder="Cena" /></Td>
+
                         <Td onClick={() => remove(index)}>Usuń</Td>
+                        <Td key={field.id}>
+                          <p>{errors?.products?.[index]?.name?.message}</p>
+                          <p>{errors?.products?.[index]?.amount?.message}</p>
+                          <p>{errors?.products?.[index]?.unit?.message}</p>
+                          <p>{errors?.products?.[index]?.price?.message}</p>
+                        </Td>
                     </Tr>
-                    <Tr>
-                      <Td><p>{errors?.products?.[index]?.name?.message}</p></Td>
-                      <Td><p>{errors?.products?.[index]?.amount?.message}</p></Td>
-                      <Td><p>{errors?.products?.[index]?.unit?.message}</p></Td>
-                      <Td><p>{errors?.products?.[index]?.price?.message}</p></Td>
-                      <Td></Td>
-                    </Tr>
-                    </>
                 ))}
                     </Tbody>
                   </Table>

@@ -1,56 +1,29 @@
 import { Link } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { useUserContext } from "../contexts/UserContext";
+
 import style from './LoginWrapper.module.css';
-import { supabase } from "../supabaseClient";
-import { useQuery } from "@tanstack/react-query";
 
 const LoginWrapper = ({children}:{children:React.ReactNode}) => {
-    const { isLoggedIn, logOut, email, id }=useUserContext();
-
-    async function getMedia() {
-
-        const { data, error } = await supabase.storage.from('shopping').list(id + '/', {
-          limit: 10,
-          offset: 0
-        });
-
-        if (data) {
-          return data;
-        } else {
-          throw error
-        }
-      }
-      const {data:media,isLoading,error}=useQuery(['avatar',id,email],getMedia);
-
-      if(error){
-        return <p>Cannot get data</p>
-      }
-    
-      if (isLoading) {
-        return <p>Loading...</p>;
-      }
-
+    const { isLoggedIn, logOut, email, avatar }=useUserContext();
+    const queryClient = useQueryClient();
+    const handleLogout = () => {
+        queryClient.removeQueries();
+    }
     return (
         <>
             {
                 !isLoggedIn ? <>{children}</> :
                 <>
-                    <Link to={'/'}><Button colorScheme='blue' type="button" onClick={logOut}>Wyloguj</Button></Link>
+                    <Link to={'/'}><Button colorScheme='blue' type="button" onClick={logOut} onChange={handleLogout}>Wyloguj</Button></Link>
                     <div>Witaj, {email}</div>
                     <div>
-
-                            {media?.length === 0 ? 
-                              <img 
-                              src={`https://llhsvhuwwzuwbaulprka.supabase.co/storage/v1/object/public/shopping/${id}/${media[0]?.name}`}
-                              className={style.image}
-                              alt="avatar" /> : 
-                              <img 
-                              src={`https://llhsvhuwwzuwbaulprka.supabase.co/storage/v1/object/public/shopping/${id}/${media[media.length - 1]?.name}`}
-                              className={style.image}
-                              alt="avatar" />}
-
+                        <img 
+                          src={avatar}
+                          className={style.image}
+                          alt="avatar" />
                     </div>
                 </>
             }

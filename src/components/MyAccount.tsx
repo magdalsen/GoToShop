@@ -4,6 +4,7 @@ import { Button, Input, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 // import updateUser from "../api/updateUser";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { v4 as uuidv4 } from 'uuid';
 
 import { useNotificationContext } from "../contexts/NotificationContext";
 import { useUserContext } from "../contexts/UserContext";
@@ -11,17 +12,27 @@ import { supabase } from "../supabaseClient";
 
 import { schemaSignup,SignupData } from "./validations/validation";
 import LoginDataWrapper from "./LoginDataWrapper";
-import { v4 as uuidv4 } from 'uuid';
+
 import style from './MyAccount.module.css';
-import { FileObject } from "@supabase/storage-js";
 // import { Input as FormInput } from './form/Input'
 
 const MyAccount = () => {
-    const {id}=useUserContext();
+    const {id,avatar,getAvatar}=useUserContext();
     const [editedUser, setEditUser] = useState(false);
     const queryClient = useQueryClient();
-    const {toggleAlertSuccess}=useNotificationContext();
-    const [media, setMedia] = useState<FileObject[]>([]);
+    const {toggleAlertSuccess,toggleAlertError}=useNotificationContext();
+
+    const fetchUserData = async () => {
+      const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', id)
+      if (error) throw error;
+      getAvatar(data[0].image);
+      return data[0];
+    }
+
+    const {data:users,isLoading,error}=useQuery(['users',avatar],fetchUserData);
 
     const updateUser = async (values:SignupData, initialEmail:string) => {
         const { data, error } = await supabase.auth.updateUser({ email: initialEmail, password: values.password });
@@ -41,7 +52,17 @@ const MyAccount = () => {
         }
       }
 
-      const mutation = useMutation(async (data:SignupData, email:string)=>await updateUser(data, email), {
+      const updateUserImage=async(url:string)=>{
+        //id - id usera
+         const { data, error } = await supabase.from('users').update({image: url}).eq('id',id)
+         if(error){
+          toggleAlertError("Błąd podczas dodawania awatara");
+         }
+         toggleAlertSuccess("Avatar zmieniony. Odśwież stronę.")
+         return data;
+      }
+
+      const mutation = useMutation(async ({data,email}:{data:SignupData, email:string})=>await updateUser(data, email), {
         onSuccess: () => {
           queryClient.invalidateQueries(['users']);
         },
@@ -49,17 +70,6 @@ const MyAccount = () => {
           throw new Error("Something went wrong :(");
         }
     });
-
-    const fetchUserData = async () => {
-        const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', id)
-        if (error) throw error;
-        return data[0];
-      }
-
-      const {data:users,isLoading,error}=useQuery(['users'],fetchUserData);
 
       const handleClick = () => {
         setEditUser(prev=>!prev);
@@ -75,36 +85,28 @@ const MyAccount = () => {
           .upload(id + "/" + uuidv4(), file)
     
         if (data) {
-          getMedia();
-    
+          const url=await getImageUrl(data.path);
+          updateUserImage(url);    
         } else {
           throw error;
         }
       }
 
-      async function getMedia() {
-
-        const { data, error } = await supabase.storage.from('shopping').list(id + '/', {
-          limit: 10,
-          offset: 0
-        });
-
-        if (data) {
-          setMedia(data);
-        } else {
-          throw error
-        }
-      }
+      const getImageUrl = async (imagePath: string) => {
+        const { data } = await supabase.storage
+          .from("shopping")
+          .getPublicUrl(imagePath);
+        return data?.publicUrl;
+      };
 
       useEffect(() => {
-        fetchUserData().then(()=>{
+        fetchUserData().then(users=>{
           setValue("name", users?.name);
           setValue("age", users?.age);
           setValue("email", users?.email);
           setValue("city", users?.city);
         })
-        getMedia();
-      }, []);
+      },[]);
 
     const { register, handleSubmit, formState: { errors }, setValue } = useForm<SignupData>({
         defaultValues: {
@@ -117,7 +119,7 @@ const MyAccount = () => {
       });
       const onSubmit = (data: SignupData) => {
         updateUser(data, users?.email);
-        mutation.mutate(data, users?.email);
+        mutation.mutate({data, email:users?.email});
         toggleAlertSuccess('User updated!');
       }
 
@@ -137,15 +139,10 @@ const MyAccount = () => {
                         <div className={style.userData}>
                             <div>
                               <span>Avatar:
-                                {media.length === 0 ? 
-                                  <img 
-                                  src={`https://llhsvhuwwzuwbaulprka.supabase.co/storage/v1/object/public/shopping/${id}/${media[0]?.name}`}
+                                 <img 
+                                  src={users?.image}
                                   className={style.image}
-                                  alt="avatar" /> : 
-                                  <img 
-                                  src={`https://llhsvhuwwzuwbaulprka.supabase.co/storage/v1/object/public/shopping/${id}/${media[media.length - 1]?.name}`}
-                                  className={style.image}
-                                  alt="avatar" />}
+                                  alt="avatar" />
                               </span>
                             </div>
                             <Input
