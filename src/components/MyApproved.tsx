@@ -43,7 +43,7 @@ const MyApproved = () => {
 
     const mutation = useMutation(async (accId:number)=>await handleClick(accId), {
         onSuccess: () => {
-          queryClient.invalidateQueries(['listsToApproveByMe']);
+          queryClient.invalidateQueries({ queryKey: ['listsToApproveByMe'] });
         },
         onError: ()=>{
           throw new Error("Something went wrong :(");

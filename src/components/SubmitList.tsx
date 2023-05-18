@@ -60,7 +60,7 @@ const {data:list, isLoading, error}=useQuery(["listSubmited",id],fetchListData);
 
   const mutation = useMutation(async (data:FormValues)=>await updateList(data), {
     onSuccess: () => {
-      queryClient.invalidateQueries(['listSubmited',id]);
+      queryClient.invalidateQueries({ queryKey: ['listSubmited',id] });
     },
     onError: ()=>{
       throw new Error("Something went wrong :(");

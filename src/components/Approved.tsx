@@ -41,7 +41,7 @@ const Approved = () => {
 
     const mutation = useMutation(async ()=>await fetchLists(), {
         onSuccess: () => {
-          queryClient.invalidateQueries(['listApproved']);
+          queryClient.invalidateQueries({ queryKey: ['listApproved'] });
         },
         onError: ()=>{
           throw new Error("Something went wrong :(");

@@ -64,7 +64,7 @@ const MyAccount = () => {
 
       const mutation = useMutation(async ({data,email}:{data:SignupData, email:string})=>await updateUser(data, email), {
         onSuccess: () => {
-          queryClient.invalidateQueries(['users']);
+          queryClient.invalidateQueries({ queryKey: ['users'] });
         },
         onError: ()=>{
           throw new Error("Something went wrong :(");

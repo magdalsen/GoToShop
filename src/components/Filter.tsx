@@ -1,11 +1,14 @@
 import { useState } from 'react'
-import { supabase } from '../supabaseClient';
-import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import List from './pages/List';
-import style from './MyLists.module.css';
 import { Checkbox, FormLabel, Input } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { supabase } from '../supabaseClient';
+
 import { useDebounce } from './helpers/useDebounce';
+import List from './pages/List';
+
+import style from './MyLists.module.css';
 
 const Filter = () => {
     const [filterTags, setFilterTags] = useState<string[]>([]);
@@ -65,34 +68,18 @@ const Filter = () => {
   const newAddressArray:string[] = [];
   const newNameArray:string[] = [];
   const newDateArray:string[] = [];
-    const cityArray = () => {
-      return allListsFilter?.map((el)=>{
-          return newCityArray.push(el.city)
-      })
-    }
-    const addressArray = () => {
-      return allListsFilter?.map((el)=>{
-          return newAddressArray.push(el.address)
-      })
-    }
-    const nameArray = () => {
-      return allListsFilter?.map((el)=>{
-          return newNameArray.push(el.listName)
-      })
-    }
-    const dateArray = () => {
-      return allListsFilter?.map((el)=>{
-          return newDateArray.push(el.receiveDate)
-      })
-    }
+    const cityArray = () => allListsFilter?.map((el)=>newCityArray.push(el.city))
+    const addressArray = () => allListsFilter?.map((el)=>newAddressArray.push(el.address))
+    const nameArray = () => allListsFilter?.map((el)=>newNameArray.push(el.listName))
+    const dateArray = () => allListsFilter?.map((el)=>newDateArray.push(el.receiveDate))
     cityArray();
     addressArray();
     nameArray();
     dateArray();
-    let newSetCity = [...new Set(newCityArray)];
-    let newSetAddress = [...new Set(newAddressArray)];
-    let newSetName = [...new Set(newNameArray)];
-    let newSetDate = [...new Set(newDateArray)];
+    const newSetCity = [...new Set(newCityArray)];
+    const newSetAddress = [...new Set(newAddressArray)];
+    const newSetName = [...new Set(newNameArray)];
+    const newSetDate = [...new Set(newDateArray)];
 
   if (error) {
     <div>Sorry, error!</div>

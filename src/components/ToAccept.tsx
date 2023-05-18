@@ -23,10 +23,20 @@ const ToAccept = () => {
         .eq('ownerId', id)
         .eq('archived', false)
         .eq('confirmed', true)
+        .eq('approved', false)
         if (error) throw error;
         return data;
     }
     const {data:lists, isLoading, error}=useQuery(["listsToAccept",id],fetchLists);
+
+    const mutation2 = useMutation(async ()=>await fetchLists(), {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['listsToAccept',id] });
+        },
+        onError: ()=>{
+          throw new Error("Something went wrong :(");
+        }
+    });
 
     const handleClick = async (id:number) => {
         const { data, error } = await supabase
@@ -42,8 +52,8 @@ const ToAccept = () => {
     }
 
     const mutation = useMutation(async (accId:number)=>await handleClick(accId), {
-        onSuccess: () => {
-          queryClient.invalidateQueries(['listAccepted']);
+        onSuccess: (accId) => {
+          queryClient.invalidateQueries({ queryKey: ['listAccepted',accId] });
         },
         onError: ()=>{
           throw new Error("Something went wrong :(");
@@ -66,7 +76,11 @@ const ToAccept = () => {
                                 <List {...values} />
                             </div>
                             <div>
-                                <Button colorScheme="blue" type="submit" onClick={()=>handleClick(values.id)} onChange={()=>mutation.mutate(values.id)}>Zaakceptuj listę</Button>
+                                <Button colorScheme="blue" type="submit" onClick={()=>{
+                                    handleClick(values.id)
+                                    mutation.mutate(values.id)
+                                    mutation2.mutate(values.id)
+                                }}>Zaakceptuj listę</Button>
                             </div>
                         </div>
                     ))}

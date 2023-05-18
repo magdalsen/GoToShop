@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -19,7 +19,10 @@ const ToDo = () => {
         .select()
         .match({
             contractorId: id,
-            archived: false
+            archived: false,
+            inprogress: true,
+            confirmed: false,
+            approved: false
         })
         if (error) throw error;
         return data;
@@ -28,7 +31,7 @@ const ToDo = () => {
 
     const mutation = useMutation(async ()=>await fetchToDoLists(), {
         onSuccess: () => {
-          queryClient.invalidateQueries(['listsToDo',id]);
+          queryClient.invalidateQueries({ queryKey: ['listsToDo',id] });
         },
         onError: ()=>{
           throw new Error("Something went wrong :(");
