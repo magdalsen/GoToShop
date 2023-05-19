@@ -1,5 +1,4 @@
-import { createContext, useState } from "react"
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { createContext, useEffect, useState } from "react";
 
 import { supabase } from "../supabaseClient";
 
@@ -78,6 +77,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const getAvatar = (image:string) => {
     setAvatar(image);
   }
+
+  useEffect(()=>{
+    getAvatar(image);
+  })
 
     return (
       <UserContext.Provider value={{ email, image, login, loginData, logOut, getCity, getAvatar, city, isLoggedIn, id, avatar }}>
