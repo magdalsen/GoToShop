@@ -1,35 +1,17 @@
 import { Badge, Box, Stack } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
-
-import { supabase } from "../../supabaseClient";
 
 import style from "./List.module.css";
 
-const List = ({ ...values }) => {
-    const fetchList = async () => {
-        const { data, error } = await supabase
-        .from('lists')
-        .select('*')
-        .eq('id', values.id)
-        if (error) throw error;
-        return data[0];
-    }
-    const {data:list, isLoading, error}=useQuery(["listDet",values.id],fetchList);
-
-    if (error) {
-        <div>Sorry, error!</div>
-    }
-    if (isLoading) {
-        <div>Loading data...</div>
-    }
-
-    return (
+const List = ({ ...values }) => (
         <Box bgImage="url('./list.png')" className={style.oneList}>
+                    {/* <Stack direction='row' className={style.statusBox}>
+                        <Badge colorScheme={status}>{text}</Badge>
+                    </Stack> */}
         <Stack direction='row'>
-            {!list?.archived && !list?.confirmed && !list?.approved && !list?.inprogress ? <Badge colorScheme='green'>Do wzięcia</Badge> : ''}
-            {list?.inprogress && !list?.confirmed && !list?.approved && !list?.archived ? <Badge colorScheme='yellow'>W realizacji</Badge> : ''}
-            {list?.confirmed || list?.approved ? <Badge colorScheme='purple'>Zrealizowana</Badge> : ''}
-            {list?.archived ? <Badge colorScheme='red'>Archiwum</Badge> : ''}
+            {!values.archived && !values.confirmed && !values.approved && !values.inprogress ? <Badge colorScheme='green'>Do wzięcia</Badge> : ''}
+            {values.inprogress && !values.confirmed && !values.approved && !values.archived ? <Badge colorScheme='yellow'>W realizacji</Badge> : ''}
+            {values.confirmed || values.approved ? <Badge colorScheme='purple'>Zrealizowana</Badge> : ''}
+            {values.archived ? <Badge colorScheme='red'>Archiwum</Badge> : ''}
         </Stack>
         <div>Nazwa listy: {values.listName}</div>
         <div>Szacowany koszt: {values.estimatedCost} zł</div>
@@ -37,7 +19,5 @@ const List = ({ ...values }) => {
         <div>Data dostarczenia: {values.receiveDate}</div>
         </Box>
     )
-
-}
 
 export default List
