@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNotificationContext } from "../contexts/NotificationContext";
 import { useUserContext } from "../contexts/UserContext";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { statusToChange } from "../redux/statusSlice";
 import { buttonActive,buttonDisabled } from "../redux/takeListSlice";
 import { supabase } from "../supabaseClient";
 
@@ -22,6 +23,8 @@ const ListDetails = () => {
     const location = useLocation();
     const checkedButtons=useAppSelector(state=>state.button);
     const dispatch = useAppDispatch();
+    const status=useAppSelector(state=>state.status.values);
+    const text=useAppSelector(state=>state.status.text);
 
     const updateList = async () => {
         const { data, error } = await supabase
@@ -60,7 +63,8 @@ const ListDetails = () => {
 
     useEffect(() => {
         mutation.mutate();
-      }, []);
+        dispatch(statusToChange({inprogress: list?.inprogress, confirmed: list?.confirmed, approved: list?.approved, archived: list?.archived}))
+      }, [list]);
 
     if (error) {
         <div>Sorry, error!</div>
@@ -68,16 +72,13 @@ const ListDetails = () => {
     if (isLoading) {
         <div>Loading data...</div>
     }
-    
+
     return (
             <div className={list?.archived ? style.opacity : '' }>
                 <Box bgImage="url('./list.png')" className={style.oneList}>
                     <div>
                     <Stack direction='row' className={style.statusBox}>
-                        {!list?.archived && !list?.confirmed && !list?.approved && !list?.inprogress ? <Badge colorScheme='green'>Do wzięcia</Badge> : ''}
-                        {list?.inprogress && !list?.confirmed && !list?.approved && !list?.archived ? <Badge colorScheme='yellow'>W realizacji</Badge> : ''}
-                        {list?.confirmed || list?.approved ? <Badge colorScheme='purple'>Zrealizowana</Badge> : ''}
-                        {list?.archived ? <Badge colorScheme='red'>Archiwum</Badge> : ''}
+                        <Badge colorScheme={status}>{text}</Badge>
                     </Stack>
                     </div>
                     <div>Nazwa listy: {list?.listName}</div>
