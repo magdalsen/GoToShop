@@ -14,8 +14,6 @@ export const Input = ({
   name,
   type,
   label,
-  rules,
-  register,
   errors,
   ...rest
 }:InputProps) => (

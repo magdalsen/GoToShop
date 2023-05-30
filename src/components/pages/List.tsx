@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // import { useEffect } from "react";
 import { Badge, Box, Stack } from "@chakra-ui/react";
 

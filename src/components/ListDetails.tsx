@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Badge, Box, Button, Stack, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { useNotificationContext } from "../contexts/NotificationContext";
 import { useUserContext } from "../contexts/UserContext";
@@ -18,7 +18,6 @@ const ListDetails = () => {
     const {toggleAlertSuccess}=useNotificationContext();
     const listId = useParams();
     const {isLoggedIn,id}=useUserContext();
-    const queryClient = useQueryClient();
     const navigate = useNavigate();
     const location = useLocation();
     const checkedButtons=useAppSelector(state=>state.button);
@@ -52,10 +51,12 @@ const ListDetails = () => {
     }
     useEffect(()=>{
         handleStateButton();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     useEffect(() => {
         dispatch(statusToChange({inprogress: list?.inprogress, confirmed: list?.confirmed, approved: list?.approved, archived: list?.archived}))
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [list]);
 
     if (error) {

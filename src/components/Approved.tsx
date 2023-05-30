@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery  } from "@tanstack/react-query";
 
 import { useUserContext } from "../contexts/UserContext";
 import { supabase } from "../supabaseClient";
@@ -13,7 +12,7 @@ import style from './MyLists.module.css';
 
 const Approved = () => {
     const {id}=useUserContext();
-    const queryClient = useQueryClient();
+    // const queryClient = useQueryClient();
     const fetchLists = async () => {
         const { data, error } = await supabase
         .from('lists')
@@ -39,18 +38,18 @@ const Approved = () => {
     //     return data;
     // }
 
-    const mutation = useMutation(async ()=>await fetchLists(), {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['listApproved'] });
-        },
-        onError: ()=>{
-          throw new Error("Something went wrong :(");
-        }
-    });
+    // const mutation = useMutation(async ()=>await fetchLists(), {
+    //     onSuccess: () => {
+    //       queryClient.invalidateQueries({ queryKey: ['listApproved'] });
+    //     },
+    //     onError: ()=>{
+    //       throw new Error("Something went wrong :(");
+    //     }
+    // });
 
-    useEffect(()=>{
-        mutation.mutate();
-    },[]);
+    // useEffect(()=>{
+    //     mutation.mutate();
+    // },[]);
 
     if (error) {
         <div>Sorry, error!</div>

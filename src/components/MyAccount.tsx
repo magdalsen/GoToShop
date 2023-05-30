@@ -104,14 +104,17 @@ const MyAccount = () => {
 
       useEffect(() => {
         fetchUserData().then(users=>{
-          setValue("name", users?.name);
-          setValue("age", users?.age);
-          setValue("email", users?.email);
-          setValue("city", users?.city);
+          reset({
+            name: users?.name,
+            age: users?.age,
+            email: users?.email,
+            city: users?.city,
+          })
         })
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       },[]);
 
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm<SignupData>({
+    const { register, handleSubmit,reset, formState: { errors } } = useForm<SignupData>({
         defaultValues: {
             name: users?.name,
             age: users?.age,

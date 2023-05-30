@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import { Button, Input, Radio, RadioGroup, Stack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import { useNotificationContext } from "../contexts/NotificationContext";
 import { useUserContext } from "../contexts/UserContext";
+import { supabase } from "../supabaseClient";
 
 import { schemaSignup,SignupData } from "./validations/validation";
 import LocationMarker from "./LocationMarker";
-import { supabase } from "../supabaseClient";
-import { useNotificationContext } from "../contexts/NotificationContext";
 // import { Input as FormInput } from './form/Input'
 
 const Signup = () => {
@@ -40,6 +40,7 @@ const Signup = () => {
 
       useEffect(() => {
         setValue("city", city)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [city])
       
 

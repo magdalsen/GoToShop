@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { createSlice,PayloadAction } from '@reduxjs/toolkit'
 
 interface StatusState {

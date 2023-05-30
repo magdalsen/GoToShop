@@ -70,6 +70,7 @@ const RepeatList = () => {
 
   useEffect(()=>{
     fetchListData().then(list=>{
+      //TODO: make it by reset
       setValue('products', list?.products);
         setValue('listName', list?.listName);
         setValue('receiveDate', list?.receiveDate);
@@ -77,6 +78,7 @@ const RepeatList = () => {
         setValue('tip', list?.tip);
         setValue('phone', list?.phone);
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
       
   const {
