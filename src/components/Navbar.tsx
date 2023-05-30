@@ -53,19 +53,12 @@ const Navbar = () => (
                     className={style.navbarTitleContainer}
                 >
                     
-                        <Image width='190px' src='../../public/dont.png' alt='dont' className={style.navbarImg} />
+                        <Image width='190px' src='./dont.png' alt='dont' className={style.navbarImg} />
                         <span className={style.title}>GoToShop</span>
                     
                     
                 </Text>
             </Link>
-            {/* <Text
-                fontSize={theme.fontSizes.m}
-                fontWeight={theme.fontWeight.mid}
-                mb={9}
-            >
-                Dobre zakupy
-            </Text> */}
             </Tabs>
         </>
     )

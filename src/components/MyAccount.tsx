@@ -114,7 +114,7 @@ const MyAccount = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       },[]);
 
-    const { register, handleSubmit,reset, formState: { errors } } = useForm<SignupData>({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<SignupData>({
         defaultValues: {
             name: users?.name,
             age: users?.age,

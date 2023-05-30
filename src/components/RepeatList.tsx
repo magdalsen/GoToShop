@@ -70,13 +70,14 @@ const RepeatList = () => {
 
   useEffect(()=>{
     fetchListData().then(list=>{
-      //TODO: make it by reset
-      setValue('products', list?.products);
-        setValue('listName', list?.listName);
-        setValue('receiveDate', list?.receiveDate);
-        setValue('address', list?.address);
-        setValue('tip', list?.tip);
-        setValue('phone', list?.phone);
+      reset({
+        products: list?.products,
+        listName: list?.listName,
+        receiveDate: list?.receiveDate,
+        address: list?.address,
+        tip: list?.tip,
+        phone: list?.phone,
+      })
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
@@ -85,8 +86,8 @@ const RepeatList = () => {
     register,
     control,
     handleSubmit,
-    formState: { errors },
-    setValue
+    reset,
+    formState: { errors }
   } = useForm<FormValues>({
     defaultValues: {
       products: list?.products.map((el: { name: string; amount: string; price: string; unit: string; })=>[{ name: el?.name, amount: el?.amount, price: el?.price, unit: el?.unit }]),
