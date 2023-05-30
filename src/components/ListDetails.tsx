@@ -81,9 +81,9 @@ const ListDetails = () => {
                         <Badge colorScheme={status}>{text}</Badge>
                     </Stack>
                     </div>
-                    <div>Nazwa listy: {list?.listName}</div>
+                    <div className={style.listName}>Nazwa listy: {list?.listName}</div>
                     <div className={style.productData}>
-                        <div>Produkty:
+                        <div><span className={style.elementName}>Produkty:</span>
                             <TableContainer>
                                 <Table variant='simple'>
                                     <Thead>
@@ -114,11 +114,11 @@ const ListDetails = () => {
                             </TableContainer>
                         </div>
                         <div>
-                            <div>Szacowany koszt: {list?.estimatedCost} zł</div>
-                            <div>Napiwek: {list?.tip}%</div>
-                            <div>Data dostarczenia: {list?.receiveDate}</div>
-                            <div>Telefon: {list?.phone}</div>
-                            <div>Adres dostarczenia: {list?.address}</div>
+                            <div><span className={style.elementName}>Szacowany koszt:</span> {list?.estimatedCost} zł</div>
+                            <div><span className={style.elementName}>Napiwek:</span> {list?.tip}%</div>
+                            <div><span className={style.elementName}>Data dostarczenia:</span> {list?.receiveDate}</div>
+                            <div><span className={style.elementName}>Telefon:</span> {list?.phone}</div>
+                            <div><span className={style.elementName}>Adres dostarczenia:</span> {list?.address}</div>
                         </div>
                     </div>
                     <div>

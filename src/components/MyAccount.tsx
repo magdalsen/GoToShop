@@ -21,6 +21,7 @@ const MyAccount = () => {
     const [editedUser, setEditUser] = useState(false);
     const queryClient = useQueryClient();
     const {toggleAlertSuccess,toggleAlertError}=useNotificationContext();
+    const [media, setMedia] = useState<string>('');
 
     const fetchUserData = async () => {
       const { data, error } = await supabase
@@ -58,7 +59,7 @@ const MyAccount = () => {
          if(error){
           toggleAlertError("Błąd podczas dodawania awatara");
          }
-         toggleAlertSuccess("Avatar zmieniony. Odśwież stronę.")
+         toggleAlertSuccess("Avatar zmieniony. Odśwież stronę.");
          return data;
       }
 
@@ -86,6 +87,7 @@ const MyAccount = () => {
     
         if (data) {
           const url=await getImageUrl(data.path);
+          setMedia(url);
           updateUserImage(url);    
         } else {
           throw error;
@@ -140,7 +142,7 @@ const MyAccount = () => {
                             <div>
                               <span>Avatar:
                                  <img 
-                                  src={users?.image}
+                                  src={media === '' ? users?.image : media}
                                   className={style.image}
                                   alt="avatar" />
                               </span>

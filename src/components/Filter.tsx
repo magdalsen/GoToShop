@@ -91,7 +91,7 @@ const Filter = () => {
   return (
     <div className={style.main}>
       <div className={style.leftColumn}>
-        <h3>Filtry</h3>
+        <h3 className={style.siteTitle}>Filtry</h3>
         <h3>Miasto:</h3>
         <Input onChange={changeCity} name="city" placeholder="Wpisz miasto" />
         {newSetCity?.map((el)=>(
@@ -101,7 +101,7 @@ const Filter = () => {
                     value={el}
                     id={el}
                 />
-                <span>{el}</span>
+                <span className={style.label}>{el}</span>
             </FormLabel>
         ))}
 
@@ -114,7 +114,7 @@ const Filter = () => {
                     value={el}
                     id={el}
                 />
-                <span>{el}</span>
+                <span className={style.label}>{el}</span>
             </FormLabel>
         ))}
 
@@ -128,7 +128,7 @@ const Filter = () => {
                     value={el}
                     id={el}
                 />
-                <span>{el}</span>
+                <span className={style.label}>{el}</span>
             </FormLabel>
         ))}
 
@@ -142,12 +142,13 @@ const Filter = () => {
                     value={el}
                     id={el}
                 />
-                <span>{el}</span>
+                <span className={style.label}>{el}</span>
             </FormLabel>
         ))}
       </div>
       <div className={style.rightColumn}>
-        <h3>Dostępne listy</h3>
+        <h3 className={style.siteTitle}>Dostępne listy</h3>
+        
             <div className={style.listsBox}>
                     {filteredDATA?.map((el) => (
                         <div key={el.id}>

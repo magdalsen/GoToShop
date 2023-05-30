@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom"
 import { ChevronDownIcon } from '@chakra-ui/icons'
 import { Button, Menu, MenuButton, MenuItem,MenuList, Tab, TabList, Tabs, Text } from "@chakra-ui/react"
+import { Image } from '@chakra-ui/react'
 
 import { theme } from "../main"
 
 import LoginLinksWrapper from "./LoginLinksWrapper"
 import LoginWrapper from "./LoginWrapper"
-import { Image } from '@chakra-ui/react'
+
 import style from './Navbar.module.css'
 
 const Navbar = () => (
@@ -53,7 +54,7 @@ const Navbar = () => (
                 >
                     
                         <Image width='190px' src='../../public/dont.png' alt='dont' className={style.navbarImg} />
-                        GoToShop
+                        <span className={style.title}>GoToShop</span>
                     
                     
                 </Text>

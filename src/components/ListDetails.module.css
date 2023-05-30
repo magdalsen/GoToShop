@@ -4,7 +4,7 @@
     width: 775px;
     height: 100%;
     margin: 0 auto;
-    padding: 80px 0px 180px 0;
+    padding: 170px 0px 80px 0;
 }
 
 .productData {
@@ -28,4 +28,13 @@
 
 .statusBox {
     padding: 0 0 0 70px;
+}
+
+.listName {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.elementName {
+    font-weight: 600;
 }

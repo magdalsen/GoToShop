@@ -3,6 +3,11 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  min-height: 100vh;
+}
+
+.chakra-ui-light {
+  background-color:rgb(247, 248, 227);
 }
 
 form > input,div,p {

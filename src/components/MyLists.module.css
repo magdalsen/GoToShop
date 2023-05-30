@@ -30,3 +30,12 @@
 .leftColumn h3 {
     margin: 15px 0 0 15px;
 }
+
+.siteTitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.label {
+    font-size: 15px;
+}
