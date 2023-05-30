@@ -50,19 +50,11 @@ const ListDetails = () => {
     const handleStateButton = () => {
       (isLoggedIn && (list?.contractorId === '' && list?.ownerId !== id)) ? dispatch(buttonActive()) : dispatch(buttonDisabled())
     }
-    handleStateButton();
-
-    const mutation = useMutation(async ()=>await fetchList(), {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['listDet',listId.id] });
-        },
-        onError: ()=>{
-          throw new Error("Something went wrong :(");
-        }
-    });
+    useEffect(()=>{
+        handleStateButton();
+    },[])
 
     useEffect(() => {
-        mutation.mutate();
         dispatch(statusToChange({inprogress: list?.inprogress, confirmed: list?.confirmed, approved: list?.approved, archived: list?.archived}))
       }, [list]);
 

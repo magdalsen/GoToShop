@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 import { supabase } from "../supabaseClient";
 
@@ -37,6 +37,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     .select('*')
     .eq('id', id);
     setImage(image && image[0].image);
+    setAvatar(image && image[0].image)
     setId(image && image[0].id)
     return image && image[0].image;
   }
@@ -77,10 +78,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const getAvatar = (image:string) => {
     setAvatar(image);
   }
-
-  useEffect(()=>{
-    getAvatar(image);
-  })
 
     return (
       <UserContext.Provider value={{ email, image, login, loginData, logOut, getCity, getAvatar, city, isLoggedIn, id, avatar }}>

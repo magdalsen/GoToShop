@@ -29,7 +29,7 @@ const MyAccount = () => {
       .select('*')
       .eq('id', id)
       if (error) throw error;
-      getAvatar(data[0].image);
+      // getAvatar(data[0].image);
       return data[0];
     }
 
@@ -60,6 +60,7 @@ const MyAccount = () => {
           toggleAlertError("Błąd podczas dodawania awatara");
          }
          toggleAlertSuccess("Avatar zmieniony. Odśwież stronę.");
+         getAvatar(url)
          return data;
       }
 
