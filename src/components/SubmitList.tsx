@@ -39,8 +39,8 @@ const {data:list, isLoading, error}=useQuery(["listSubmited",id],fetchListData);
       });
       const tip = (list?.tip*formValues/100);
       return <>
-        <div>Wartość zakupów: {formValues} zł</div>
-        <div>Wartość Twojego napiwku: {tip} zł</div>
+        <div>Wartość zakupów: {formValues < 0 ? 0 : formValues} zł</div>
+        <div>Wartość Twojego napiwku: {tip < 0 ? 0 : tip} zł</div>
       </>;
   };
 

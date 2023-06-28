@@ -118,10 +118,11 @@ const ListDetails = () => {
                         <Button colorScheme='blue' type="button" onClick={updateList} isDisabled={checkedButtons}>Chcę zrealizować</Button>
                     </div>
                     <Link to={`/submitlist/${listId.id}`} className={(location.pathname === `/listdetails/${listId.id}`) ? style.dispNone : '' }>
-                        <Button colorScheme='blue' type="button">Podsumuj listę</Button>
+                        <Button colorScheme='blue' type="button" isDisabled={list?.archived}>Podsumuj listę</Button>
                     </Link>
                     <Link to="/">
-                        <Button colorScheme='blue' type="button">Wróć</Button>
+                        <Button colorScheme='blue' type="button" isDisabled={list?.archived}
+                        >Wróć</Button>
                     </Link>
                 </Box>
             </div>
